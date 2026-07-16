@@ -31,7 +31,6 @@
             }
         }
     </script>
-<!-- Supabase SDK -->
     <style>
         /* Flexbox Sticky Footer Foundation */
         body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
@@ -147,6 +146,7 @@
 
     <main class="pt-20">
         
+        <!-- PAGE 1: HOME -->
         <section id="view-home" class="page-view active-page">
             <div class="relative bg-white overflow-hidden border-b border-gray-200">
                 <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
@@ -225,6 +225,7 @@
             </div>
         </section>
 
+        <!-- PAGE 2: HOW IT WORKS -->
         <section id="view-how-it-works" class="page-view bg-beige">
             <div class="bg-onyx text-white py-20 px-6 text-center">
                 <div class="max-w-3xl mx-auto reveal">
@@ -278,6 +279,7 @@
             </div>
         </section>
 
+        <!-- PAGE 3: PRICING -->
         <section id="view-pricing" class="page-view bg-white">
             <div class="py-20 px-6">
                 <div class="max-w-7xl mx-auto reveal mt-8">
@@ -380,6 +382,7 @@
             </div>
         </section>
         
+        <!-- PAGE 4: LOGIN -->
         <section id="view-login" class="page-view py-24 px-6 bg-white items-center justify-center">
             <div class="max-w-md w-full bg-white border border-gray-200 p-8 rounded-3xl shadow-2xl text-center reveal">
                 <div class="gp-logo mb-6">
@@ -405,6 +408,46 @@
             </div>
         </section>
 
+        <!-- PAGE 5: DASHBOARD (Protected Client Area) -->
+        <section id="view-dashboard" class="page-view py-24 px-6 bg-beige min-h-screen border-t border-gray-200">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Dashboard Header -->
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 reveal">
+                    <div>
+                        <h1 class="font-serif text-4xl font-semibold text-onyx mb-2">Welcome back, <span id="dash-name" class="text-burgundy">Client</span></h1>
+                        <p class="text-gray-600">13009 Greenway Chase Ct, <strong class="text-onyx" id="dash-suite">Suite --</strong>, Houston, TX 77072</p>
+                    </div>
+                    <button id="logout-btn" class="mt-6 md:mt-0 px-8 py-2 border border-burgundy text-burgundy rounded-full hover:bg-burgundy hover:text-white transition font-medium shadow-sm">Secure Log Out</button>
+                </div>
+
+                <!-- Digital Mailbox Grid -->
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden reveal">
+                    <div class="bg-onyx text-white px-8 py-5 flex justify-between items-center">
+                        <h2 class="font-serif text-2xl font-semibold">Digital Mailbox</h2>
+                        <span class="text-sm bg-gold text-onyx px-4 py-1.5 rounded-full font-bold shadow-inner" id="mail-count">0 Items</span>
+                    </div>
+                    
+                    <div class="p-8 min-h-[400px]">
+                        <div id="loading-mail-state" class="text-center py-20 text-gray-400 animate-pulse">
+                            <span class="text-3xl block mb-2">🔒</span>
+                            Decrypting and loading your secure mailbox...
+                        </div>
+                        
+                        <div id="empty-mail-state" class="text-center py-20 text-gray-500 hidden">
+                            <span class="text-5xl block mb-4">📭</span>
+                            You have no new mail at this time.
+                        </div>
+
+                        <!-- Mail Cards will be injected here by JavaScript -->
+                        <div id="mail-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 6: 404 NOT FOUND -->
         <section id="view-404" class="page-view py-32 px-6 bg-white items-center justify-center">
             <div class="max-w-lg mx-auto text-center reveal">
                 <div class="text-burgundy font-serif text-9xl font-bold mb-4 opacity-20">404</div>
@@ -491,7 +534,6 @@
 
     <script>
         // 1. Initialize Supabase
-        // 1. Initialize Supabase
         const supabaseUrl = 'https://ksdspvsodyegdlbkzmrw.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzZHNwdnNvZHllZ2RsYmt6bXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMzEzNTIsImV4cCI6MjA5OTgwNzM1Mn0.ivv6TZo1msXQkDmjQlXFHoIAhgGyR6xu6-_o5K4Dplw';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -525,11 +567,25 @@
                         btn.innerHTML = "Success!";
                         btn.classList.replace('bg-burgundy', 'bg-green-600');
                         console.log("Logged in user:", data.user);
-                        // Future: Redirect to Dashboard view here
+                        // Redirect to the dashboard!
+                        window.location.hash = 'dashboard';
                     }
                 });
             }
-            // --- END NEW LOGIC ---
+            // --- END LOGIN LOGIC ---
+
+            // --- NEW: Logout Logic ---
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async () => {
+                    await _supabase.auth.signOut();
+                    window.location.hash = 'login';
+                    // Reset login button visually
+                    const btn = document.getElementById('login-btn');
+                    if(btn) { btn.innerHTML = "SIGN IN"; btn.classList.replace('bg-green-600', 'bg-burgundy'); }
+                });
+            }
+            // --- END LOGOUT LOGIC ---
 
             const pages = document.querySelectorAll('.page-view');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -542,9 +598,80 @@
                 });
             }, { threshold: 0.1 });
 
-            function handleRoute() {
+            async function handleRoute() {
                 let hash = window.location.hash.substring(1) || 'home';
                 
+                // --- NEW: Dashboard Security & Data Fetching ---
+                if (hash === 'dashboard') {
+                    // 1. Check if they are legally logged in
+                    const { data: { session } } = await _supabase.auth.getSession();
+                    if (!session) {
+                        window.location.hash = 'login'; // Kick them out if not
+                        return;
+                    }
+                    
+                    // 2. Setup the UI
+                    const user = session.user;
+                    document.getElementById('dash-name').innerText = user.email.split('@')[0];
+                    const loadingState = document.getElementById('loading-mail-state');
+                    const emptyState = document.getElementById('empty-mail-state');
+                    const mailContainer = document.getElementById('mail-container');
+                    const mailCount = document.getElementById('mail-count');
+                    
+                    loadingState.classList.remove('hidden');
+                    emptyState.classList.add('hidden');
+                    mailContainer.classList.add('hidden');
+
+                    // 3. Fetch their Suite Number
+                    const { data: suiteData } = await _supabase
+                        .from('suites')
+                        .select('suite_number')
+                        .eq('profile_id', user.id)
+                        .maybeSingle();
+                        
+                    if (suiteData) {
+                        document.getElementById('dash-suite').innerText = "Suite " + suiteData.suite_number;
+                    }
+
+                    // 4. Fetch their Mail Items
+                    const { data: mailItems, error: mailError } = await _supabase
+                        .from('mail_items')
+                        .select('*')
+                        .order('received_at', { ascending: false });
+
+                    loadingState.classList.add('hidden');
+
+                    if (mailError || !mailItems || mailItems.length === 0) {
+                        emptyState.classList.remove('hidden');
+                        mailCount.innerText = "0 Items";
+                    } else {
+                        mailCount.innerText = `${mailItems.length} Items`;
+                        mailContainer.innerHTML = ''; // Clear old mail
+                        mailContainer.classList.remove('hidden');
+
+                        // 5. Draw the Mail Cards
+                        mailItems.forEach(item => {
+                            const date = new Date(item.received_at).toLocaleDateString();
+                            const card = `
+                                <div class="border border-gray-200 rounded-xl p-5 hover:shadow-lg transition bg-beige/30">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <span class="text-xs font-bold uppercase tracking-wider text-burgundy bg-red-50 px-2 py-1 rounded">${item.mail_type}</span>
+                                        <span class="text-xs text-gray-400">${date}</span>
+                                    </div>
+                                    <h3 class="font-bold text-onyx mb-1 truncate">From: ${item.sender}</h3>
+                                    <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium">${item.status}</span></p>
+                                    <div class="flex gap-2">
+                                        <button class="flex-1 bg-white border border-gray-300 text-xs font-semibold py-2 rounded shadow-sm hover:bg-gray-50">View Image</button>
+                                        <button class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>
+                                    </div>
+                                </div>
+                            `;
+                            mailContainer.innerHTML += card;
+                        });
+                    }
+                }
+                // --- END DASHBOARD LOGIC ---
+
                 pages.forEach(page => {
                     page.classList.remove('active-page');
                     page.querySelectorAll('.reveal').forEach(r => {
