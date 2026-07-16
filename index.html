@@ -32,16 +32,21 @@
     </script>
 
     <style>
+        /* Flexbox Sticky Footer Foundation */
         body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
-        main { flex: 1; }
+        
+        /* main flex:1 ensures it takes up available space, pushing footer down natively */
+        main { flex: 1; display: flex; flex-direction: column; }
         
         /* FIXED SPA Page Transition Logic */
         .page-view {
             display: none;
             opacity: 0;
+            flex: 1; /* Allows the active page's background to stretch to the footer */
         }
         .page-view.active-page {
-            display: block;
+            display: flex;
+            flex-direction: column;
             animation: fadeInPage 0.4s ease-in-out forwards;
         }
         
@@ -200,7 +205,7 @@
             </div>
             
             <!-- Target Audience Section with Image -->
-            <div class="py-24 px-6 bg-white border-t border-gray-100">
+            <div class="py-24 px-6 bg-white border-t border-gray-100 flex-1">
                 <div class="max-w-7xl mx-auto flex flex-col md:flex-row-reverse items-center gap-16">
                     <div class="md:w-1/2 reveal">
                         <h2 class="font-serif text-4xl font-semibold mb-6">Designed for the Modern Entrepreneur</h2>
@@ -238,7 +243,7 @@
         <!-- ==========================================
              PAGE 2: HOW IT WORKS
              ========================================== -->
-        <section id="view-how-it-works" class="page-view bg-beige min-h-screen">
+        <section id="view-how-it-works" class="page-view bg-beige">
             <!-- Header -->
             <div class="bg-onyx text-white py-20 px-6 text-center">
                 <div class="max-w-3xl mx-auto reveal">
@@ -301,7 +306,7 @@
         <!-- ==========================================
              PAGE 3: PRICING & COMPARISON
              ========================================== -->
-        <section id="view-pricing" class="page-view bg-white min-h-screen">
+        <section id="view-pricing" class="page-view bg-white">
             
             <div class="py-20 px-6">
                 <div class="max-w-7xl mx-auto reveal mt-8">
@@ -418,7 +423,7 @@
         <!-- ==========================================
              PAGE 4: LOGIN
              ========================================== -->
-        <section id="view-login" class="page-view py-24 px-6 bg-white min-h-[80vh] flex items-center justify-center">
+        <section id="view-login" class="page-view py-24 px-6 bg-white items-center justify-center">
             <div class="max-w-md w-full bg-white border border-gray-200 p-8 rounded-3xl shadow-2xl text-center reveal">
                 <div class="gp-logo mb-6">
                     <span class="gp-initials text-4xl">GP</span>
@@ -444,7 +449,7 @@
 
     </main>
 
-    <!-- Professional Footer[cite: 1] -->
+    <!-- Professional Footer -->
     <footer class="bg-onyx text-white border-t-[6px] border-burgundy pt-16 pb-8 px-6 text-sm">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
@@ -506,7 +511,7 @@
         </div>
     </footer>
 
-    <!-- Cookie Banner[cite: 1] -->
+    <!-- Cookie Banner -->
     <div id="cookie-banner" class="py-4 px-6 border-t-[3px] border-gold">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-light">
             <div class="flex-1">
@@ -562,7 +567,7 @@
                     }
                 });
                 
-                // Wait for display:block to fully render, then trigger animations
+                // Wait for display:flex to fully render, then trigger animations
                 setTimeout(() => {
                     const reveals = targetPage.querySelectorAll(".reveal");
                     reveals.forEach(reveal => observer.observe(reveal));
