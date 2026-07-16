@@ -30,7 +30,94 @@
         }
     </script>
 
-    <link rel="stylesheet" href="./assets/css/main.css">
+    <style>
+        /* Flexbox Sticky Footer Foundation */
+        body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        main { flex: 1; display: flex; flex-direction: column; }
+        
+        /* SPA Page Transition Logic */
+        .page-view {
+            display: none;
+            opacity: 0;
+            flex: 1; 
+        }
+        .page-view.active-page {
+            display: flex;
+            flex-direction: column;
+            animation: fadeInPage 0.4s ease-in-out forwards;
+        }
+        
+        @keyframes fadeInPage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Elements Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Concierge Card Hover */
+        .card-hover {
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15);
+        }
+
+        /* Glassmorphism Header */
+        .glass-header {
+            background: rgba(249, 246, 240, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        /* Logo Styling */
+        .gp-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .gp-initials {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #800020;
+            margin-bottom: -10px;
+            line-height: 1;
+        }
+        .gp-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            color: #D4AF37;
+        }
+
+        /* Cookie Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1A1A1A;
+            color: white;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        }
+        #cookie-banner.show {
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body class="font-sans antialiased selection:bg-burgundy selection:text-white">
 
@@ -59,7 +146,6 @@
     <main class="pt-20">
         
         <section id="view-home" class="page-view active-page">
-            
             <div class="relative bg-white overflow-hidden border-b border-gray-200">
                 <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
                     <div class="md:w-1/2 py-20 px-6 reveal z-10">
@@ -82,7 +168,6 @@
                         <h2 class="font-serif text-4xl font-semibold mb-4">Why Choose GreenwayPost?</h2>
                         <p class="text-gray-600 max-w-2xl mx-auto">More than just a P.O. Box. We provide a complete digital mail infrastructure designed for modern Texas professionals.</p>
                     </div>
-                    
                     <div class="grid md:grid-cols-3 gap-10">
                         <div class="bg-white p-8 rounded-3xl shadow-sm reveal">
                             <div class="w-14 h-14 bg-beige text-burgundy rounded-full flex items-center justify-center mb-6 text-2xl font-bold">1</div>
@@ -285,12 +370,6 @@
                                         <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200 bg-red-50/30">Pay Per Use</td>
                                         <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Free Processing</td>
                                     </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="py-4 px-6 text-gray-600">Secure Document Shredding</td>
-                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Free</td>
-                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200 bg-red-50/30">Free</td>
-                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Free</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -322,7 +401,8 @@
                 <p class="mt-8 text-sm text-gray-500">Don't have a suite yet? <a href="#pricing" class="text-burgundy font-semibold hover:underline">View Plans</a></p>
             </div>
         </section>
-        <section id="view-404" class="page-view py-32 px-6 bg-white min-h-[80vh] flex items-center justify-center">
+
+        <section id="view-404" class="page-view py-32 px-6 bg-white items-center justify-center">
             <div class="max-w-lg mx-auto text-center reveal">
                 <div class="text-burgundy font-serif text-9xl font-bold mb-4 opacity-20">404</div>
                 <h2 class="font-serif text-4xl font-semibold mb-4 text-onyx">Suite Not Found</h2>
@@ -330,6 +410,7 @@
                 <a href="#home" class="inline-block px-8 py-4 bg-burgundy text-white rounded-full font-medium hover:bg-onyx transition shadow-md">Return to Homepage</a>
             </div>
         </section>
+
     </main>
 
     <footer class="bg-onyx text-white border-t-[6px] border-burgundy pt-16 pb-8 px-6 text-sm">
@@ -372,7 +453,7 @@
                 <ul class="space-y-3 text-gray-400 font-light">
                     <li><a href="#" class="hover:text-gold transition">Terms of Service</a></li>
                     <li><a href="#" class="hover:text-gold transition">Privacy Policy & CCPA</a></li>
-                    <li><a href="./legal/usps-form-1583.html" class="hover:text-gold transition">USPS Form 1583 Guidelines</a></li>
+                    <li><a href="#" class="hover:text-gold transition">USPS Form 1583 Guidelines</a></li>
                     <li><a href="#" class="hover:text-gold transition">AML/KYC Identity Verification</a></li>
                     <li><a href="#" class="hover:text-gold transition">Prohibited Items Policy</a></li>
                 </ul>
@@ -382,7 +463,6 @@
                 </div>
             </div>
         </div>
-
         <div class="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
             <p>&copy; 2026 GreenwayPost LLC. All rights reserved.</p>
             <div class="flex space-x-4 mt-4 md:mt-0">
@@ -397,7 +477,7 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-light">
             <div class="flex-1">
                 <strong class="font-medium text-white block mb-1">Your Privacy Matters</strong>
-                <span class="text-gray-300">We use cookies and similar technologies to ensure the proper functioning of our digital mailbox platform, analyze site traffic, and personalize your experience. By clicking "Accept All", you consent to our use of non-essential cookies. Read our <a href="#" class="text-gold underline hover:text-white">Privacy Policy</a> to manage your preferences or learn more about your state consumer privacy rights.</span>
+                <span class="text-gray-300">We use cookies to ensure the proper functioning of our digital mailbox platform. By clicking "Accept All", you consent to our use of non-essential cookies. Read our <a href="#" class="text-gold underline hover:text-white">Privacy Policy</a> to manage your preferences.</span>
             </div>
             <div class="flex flex-shrink-0 gap-3 w-full md:w-auto">
                 <button onclick="acceptCookies()" class="flex-1 md:flex-none px-6 py-2.5 bg-gold text-onyx font-medium rounded-lg hover:bg-white transition">Accept All</button>
@@ -406,6 +486,77 @@
         </div>
     </div>
 
-    <script src="./assets/js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const pages = document.querySelectorAll('.page-view');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            function handleRoute() {
+                let hash = window.location.hash.substring(1) || 'home';
+                
+                pages.forEach(page => {
+                    page.classList.remove('active-page');
+                    page.querySelectorAll('.reveal').forEach(r => {
+                        r.classList.remove('active');
+                        observer.unobserve(r); 
+                    });
+                });
+                
+                const targetPage = document.getElementById(`view-${hash}`);
+                
+                if (targetPage) {
+                    targetPage.classList.add('active-page');
+                } else {
+                    document.getElementById('view-404').classList.add('active-page');
+                    navLinks.forEach(link => link.classList.remove('text-burgundy', 'font-semibold'));
+                }
+                
+                window.scrollTo(0, 0);
+
+                if (targetPage) {
+                    navLinks.forEach(link => {
+                        if (link.getAttribute('href') === `#${hash}` || (hash === 'home' && link.getAttribute('href') === '#home')) {
+                            link.classList.add('text-burgundy', 'font-semibold');
+                        } else {
+                            link.classList.remove('text-burgundy', 'font-semibold');
+                        }
+                    });
+                }
+                
+                setTimeout(() => {
+                    const activeReveals = document.querySelector('.active-page').querySelectorAll(".reveal");
+                    activeReveals.forEach(reveal => observer.observe(reveal));
+                }, 50);
+            }
+
+            window.addEventListener('hashchange', handleRoute);
+            handleRoute();
+
+            const banner = document.getElementById('cookie-banner');
+            if (!localStorage.getItem('greenwaypost_cookie_consent')) {
+                setTimeout(() => {
+                    if (banner) banner.classList.add('show');
+                }, 1000);
+            }
+        });
+
+        function acceptCookies() {
+            localStorage.setItem('greenwaypost_cookie_consent', 'accepted');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+
+        function rejectCookies() {
+            localStorage.setItem('greenwaypost_cookie_consent', 'rejected');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+    </script>
 </body>
 </html>
