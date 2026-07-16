@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Virtual Address | Houston, TX</title>
+    <title>GreenwayPost | Premium Virtual Address | Houston, TX</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,8 @@
                     colors: {
                         beige: '#F9F6F0',
                         onyx: '#1A1A1A',
-                        gold: '#D4AF37',
+                        burgundy: '#800020', // Your logo's specific color
+                        gold: '#D4AF37',   // From your logo and royalty aesthetic
                         goldLight: 'rgba(212, 175, 55, 0.3)'
                     },
                     fontFamily: {
@@ -52,7 +53,7 @@
         }
         .card-hover:hover {
             transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15); /* Burgundy shadow */
         }
 
         /* Glassmorphism Header */
@@ -61,19 +62,44 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+        
+        /* Logo Styling for header/footer */
+        .gp-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .gp-initials {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #800020;
+            margin-bottom: -10px;
+        }
+        .gp-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            color: #D4AF37;
+        }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-gold selection:text-white">
+<body class="font-sans antialiased selection:bg-burgundy selection:text-white">
 
     <!-- Sticky Navigation -->
-    <nav class="fixed w-full z-50 glass-header border-b border-gold/20 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="font-serif text-2xl font-semibold tracking-wide text-onyx">Greenway<span class="text-gold">.</span></div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="#how-it-works" class="hover:text-gold transition">How It Works</a>
-                <a href="#pricing" class="hover:text-gold transition">Pricing</a>
+    <nav class="fixed w-full z-50 glass-header border-b border-burgundy/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
+            <!-- Brand Logo Integration from visual identity -->
+            <div class="gp-logo">
+                <span class="gp-initials">GP</span>
+                <span class="gp-name">GreenwayPost</span>
             </div>
-            <a href="#pricing" class="hidden md:inline-block bg-onyx text-white px-6 py-2 rounded-full text-sm hover:bg-gold transition duration-300 shadow-lg">Login</a>
+            
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#how-it-works" class="hover:text-burgundy transition">How It Works</a>
+                <a href="#pricing" class="hover:text-burgundy transition">Pricing</a>
+            </div>
+            <a href="#pricing" class="hidden md:inline-block bg-burgundy text-white px-6 py-2 rounded-full text-sm hover:bg-onyx transition duration-300 shadow-lg">Login</a>
             
             <!-- Mobile Menu Icon (Visual Only) -->
             <div class="md:hidden space-y-1.5 cursor-pointer">
@@ -94,7 +120,7 @@
                     <a href="#pricing" class="bg-gold text-onyx font-medium px-8 py-4 rounded-full shadow-[0_8px_24px_rgba(212,175,55,0.4)] hover:shadow-[0_12px_32px_rgba(212,175,55,0.6)] hover:-translate-y-1 transition-all duration-300">Reserve Your Suite</a>
                 </div>
                 <p class="mt-6 text-sm text-gray-500 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                    <svg class="w-4 h-4 text-burgundy" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                     Securely located at 13009 Greenway Chase Ct, Houston, TX.
                 </p>
             </div>
@@ -106,7 +132,7 @@
                     <div class="w-full h-full bg-beige rounded-[30px] p-4 flex flex-col gap-4">
                         <div class="w-1/2 h-4 bg-gray-200 rounded-full mx-auto mb-4"></div>
                         <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3">
-                            <div class="w-8 h-8 bg-gold/20 rounded-full mb-2"></div>
+                            <div class="w-8 h-8 bg-burgundy/20 rounded-full mb-2"></div>
                             <div class="w-3/4 h-3 bg-gray-200 rounded-full mb-2"></div>
                             <div class="w-1/2 h-3 bg-gray-100 rounded-full"></div>
                         </div>
@@ -126,7 +152,7 @@
             
             <div class="relative pl-8 md:pl-0">
                 <!-- Vertical Line -->
-                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gold/30 transform -translate-x-1/2"></div>
+                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-burgundy/30 transform -translate-x-1/2"></div>
                 
                 <!-- Step 1 -->
                 <div class="relative flex flex-col md:flex-row items-center mb-16 reveal">
@@ -134,14 +160,14 @@
                         <h3 class="font-serif text-2xl font-semibold mb-2">Secure Your Prestige</h3>
                         <p class="text-gray-600 font-light">Select your tier and instantly claim your unique suite number at our Greenway Chase location. A real commercial address—never a P.O. Box.</p>
                     </div>
-                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-gold rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
+                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
                     <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
                 </div>
                 
                 <!-- Step 2 -->
                 <div class="relative flex flex-col md:flex-row items-center mb-16 reveal">
                     <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
-                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-gold rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
+                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
                     <div class="md:w-1/2 md:pl-12 mt-6 md:mt-0">
                         <h3 class="font-serif text-2xl font-semibold mb-2">Discreet Digitization</h3>
                         <p class="text-gray-600 font-light">As your mail arrives, our dedicated local team securely photographs the exterior envelope and sends a discrete notification directly to your phone.</p>
@@ -154,7 +180,7 @@
                         <h3 class="font-serif text-2xl font-semibold mb-2">Command Your Correspondence</h3>
                         <p class="text-gray-600 font-light">With a single tap in your digital dashboard, direct us to privately scan the contents, forward packages globally, deposit checks, or securely shred sensitive documents.</p>
                     </div>
-                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-gold rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
+                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
                     <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
                 </div>
             </div>
@@ -176,26 +202,26 @@
                     <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Perfect for travelers, digital nomads, and privacy-focused individuals.</p>
                     <div class="text-4xl font-semibold text-onyx mb-8">$6.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
                     <ul class="space-y-4 mb-8 text-sm text-gray-700">
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Suite at 13009 Greenway Chase Ct</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> 30 Mail Items per Month</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Real-Time Digital Viewing</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Secure Document Shredding</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Suite at 13009 Greenway Chase Ct</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 30 Mail Items per Month</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Real-Time Digital Viewing</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Secure Document Shredding</li>
                     </ul>
-                    <button class="w-full py-3 rounded-full border border-onyx text-onyx font-medium hover:bg-onyx hover:text-white transition duration-300">Choose Essential</button>
+                    <button class="w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Essential</button>
                 </div>
 
                 <!-- Executive (Highlighted) -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover reveal border-2 border-gold relative transform lg:-translate-y-4">
-                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gold text-onyx text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full">Most Popular</div>
+                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover reveal border-2 border-burgundy relative transform lg:-translate-y-4">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-burgundy text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full">Most Popular</div>
                     <h3 class="font-serif text-2xl font-semibold mb-2">The Executive</h3>
                     <p class="text-gray-500 text-sm mb-6 min-h-[40px]">The standard for Texas LLCs, startups, and remote founders.</p>
                     <div class="text-4xl font-semibold text-onyx mb-8">$10.49<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
                     <ul class="space-y-4 mb-8 text-sm text-gray-700">
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Everything in Essential</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> 60 Mail Items per Month</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Official Company Name Support</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Registered Agent Capable</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Priority Mail Forwarding</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Essential</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 60 Mail Items per Month</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Official Company Name Support</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Registered Agent Capable</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Priority Mail Forwarding</li>
                     </ul>
                     <button class="w-full py-3 rounded-full bg-gold text-onyx font-medium hover:bg-yellow-500 transition duration-300 shadow-md">Choose Executive</button>
                 </div>
@@ -206,19 +232,19 @@
                     <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Designed for high-volume agencies and established firms.</p>
                     <div class="text-4xl font-semibold text-onyx mb-8">$27.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
                     <ul class="space-y-4 mb-8 text-sm text-gray-700">
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Everything in Executive</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> 240 Mail Items per Month</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Direct Check Deposit Services</li>
-                        <li class="flex items-center"><span class="text-gold mr-3">✔</span> Phone & Fax Routing</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Executive</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 240 Mail Items per Month</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Direct Check Deposit Services</li>
+                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Phone & Fax Routing</li>
                     </ul>
-                    <button class="w-full py-3 rounded-full border border-onyx text-onyx font-medium hover:bg-onyx hover:text-white transition duration-300">Choose Corporate</button>
+                    <button class="w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Corporate</button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Trust Banner & Footer -->
-    <footer class="bg-onyx text-white py-16 px-6 border-t-[6px] border-gold">
+    <footer class="bg-onyx text-white py-16 px-6 border-t-[6px] border-burgundy">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center reveal">
             <div>
                 <h2 class="font-serif text-3xl mb-4">Total Privacy, Fully Compliant.</h2>
@@ -228,9 +254,12 @@
                     <div class="px-4 py-2 bg-white/10 rounded border border-white/20 text-xs tracking-wider uppercase">256-Bit Encrypted</div>
                 </div>
             </div>
-            <div class="md:text-right border-l md:border-l-0 md:border-r border-gold/30 pl-6 md:pr-6 md:pl-0">
-                <div class="font-serif text-2xl mb-2">Greenway<span class="text-gold">.</span></div>
-                <p class="text-gray-400 font-light">13009 Greenway Chase Ct<br>Houston, TX 77072</p>
+            <div class="md:text-right border-l md:border-l-0 md:border-r border-burgundy/30 pl-6 md:pr-6 md:pl-0">
+                <div class="gp-logo flex flex-col md:items-end">
+                    <span class="gp-initials">GP</span>
+                    <span class="gp-name">GreenwayPost</span>
+                </div>
+                <p class="text-gray-400 font-light mt-4">13009 Greenway Chase Ct<br>Houston, TX 77072</p>
                 <div class="mt-6 flex flex-col md:flex-row justify-end gap-4 text-xs text-gray-500">
                     <a href="#" class="hover:text-gold transition">Terms of Service</a>
                     <a href="#" class="hover:text-gold transition">Privacy Policy</a>
