@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /client-portal/
+Disallow: /api/
+
+Sitemap: https://www.greenwaypost.com/sitemap.xml
