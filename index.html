@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -30,7 +32,6 @@
         }
     </script>
 <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* Flexbox Sticky Footer Foundation */
         body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
@@ -387,17 +388,18 @@
                 <h2 class="font-serif text-3xl font-semibold mb-2">Client Portal</h2>
                 <p class="text-gray-500 mb-8 text-sm">Log in to manage your digital mailbox, request scans, and forward packages.</p>
                 
-                <form onsubmit="event.preventDefault();" class="space-y-4">
-                    <input type="email" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
-                    <input type="password" placeholder="Password" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
+                <form id="login-form" class="space-y-4">
+                    <input type="email" id="email-input" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
+                    <input type="password" id="password-input" placeholder="Password" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
                     
                     <div class="flex justify-between items-center text-xs text-gray-500 pb-2">
                         <label class="flex items-center"><input type="checkbox" class="mr-2"> Remember me</label>
                         <a href="#" class="hover:text-burgundy">Forgot password?</a>
                     </div>
                     
-                    <button class="w-full py-4 bg-burgundy text-white rounded-xl font-bold tracking-wide hover:bg-onyx transition shadow-md">SIGN IN</button>
-                </form>
+                    <button type="submit" id="login-btn" class="w-full py-4 bg-burgundy text-white rounded-xl font-bold tracking-wide hover:bg-onyx transition shadow-md">SIGN IN</button>
+                    <p id="login-error" class="text-red-500 text-sm mt-2 hidden"></p>
+                 </form>
                 
                 <p class="mt-8 text-sm text-gray-500">Don't have a suite yet? <a href="#pricing" class="text-burgundy font-semibold hover:underline">View Plans</a></p>
             </div>
@@ -488,7 +490,47 @@
     </div>
 
     <script>
+        // 1. Initialize Supabase
+        // 1. Initialize Supabase
+        const supabaseUrl = 'https://ksdspvsodyegdlbkzmrw.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzZHNwdnNvZHllZ2RsYmt6bXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMzEzNTIsImV4cCI6MjA5OTgwNzM1Mn0.ivv6TZo1msXQkDmjQlXFHoIAhgGyR6xu6-_o5K4Dplw';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        
         document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- NEW: Login Authentication Logic ---
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); 
+                    
+                    const email = document.getElementById('email-input').value;
+                    const password = document.getElementById('password-input').value;
+                    const btn = document.getElementById('login-btn');
+                    const errorText = document.getElementById('login-error');
+
+                    btn.innerHTML = "Authenticating...";
+                    errorText.classList.add('hidden');
+
+                    const { data, error } = await _supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) {
+                        errorText.innerText = error.message;
+                        errorText.classList.remove('hidden');
+                        btn.innerHTML = "SIGN IN";
+                    } else {
+                        btn.innerHTML = "Success!";
+                        btn.classList.replace('bg-burgundy', 'bg-green-600');
+                        console.log("Logged in user:", data.user);
+                        // Future: Redirect to Dashboard view here
+                    }
+                });
+            }
+            // --- END NEW LOGIC ---
+
             const pages = document.querySelectorAll('.page-view');
             const navLinks = document.querySelectorAll('.nav-link');
             
@@ -559,5 +601,6 @@
             document.getElementById('cookie-banner').classList.remove('show');
         }
     </script>
+
 </body>
 </html>
