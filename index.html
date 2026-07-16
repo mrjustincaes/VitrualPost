@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS (CDN for quick prototyping) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -19,9 +19,8 @@
                     colors: {
                         beige: '#F9F6F0',
                         onyx: '#1A1A1A',
-                        burgundy: '#800020', // Your logo's specific color
-                        gold: '#D4AF37',   // From your logo and royalty aesthetic
-                        goldLight: 'rgba(212, 175, 55, 0.3)'
+                        burgundy: '#800020',
+                        gold: '#D4AF37',
                     },
                     fontFamily: {
                         serif: ['"Cormorant Garamond"', 'serif'],
@@ -32,11 +31,28 @@
         }
     </script>
 
-    <!-- Custom CSS for Animations & Refinements -->
     <style>
-        body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; }
+        body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        main { flex: 1; }
         
-        /* The Flowing Silk Animation */
+        /* SPA Page Transition Logic */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .page-view.active-page {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.6s ease-in-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Elements Animation */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -53,17 +69,17 @@
         }
         .card-hover:hover {
             transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15); /* Burgundy shadow */
+            box-shadow: 0 20px 40px rgba(128, 0, 32, 0.15);
         }
 
         /* Glassmorphism Header */
         .glass-header {
-            background: rgba(249, 246, 240, 0.85);
+            background: rgba(249, 246, 240, 0.90);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
         
-        /* Logo Styling for header/footer */
+        /* Logo Styling */
         .gp-logo {
             display: flex;
             flex-direction: column;
@@ -82,6 +98,23 @@
             text-transform: uppercase;
             color: #D4AF37;
         }
+
+        /* Cookie Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1A1A1A;
+            color: white;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        }
+        #cookie-banner.show {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-burgundy selection:text-white">
@@ -89,19 +122,19 @@
     <!-- Sticky Navigation -->
     <nav class="fixed w-full z-50 glass-header border-b border-burgundy/20 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
-            <!-- Brand Logo Integration from visual identity -->
-            <div class="gp-logo">
+            <a href="#home" class="gp-logo hover:opacity-80 transition cursor-pointer">
                 <span class="gp-initials">GP</span>
                 <span class="gp-name">GreenwayPost</span>
-            </div>
+            </a>
             
             <div class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="#how-it-works" class="hover:text-burgundy transition">How It Works</a>
-                <a href="#pricing" class="hover:text-burgundy transition">Pricing</a>
+                <a href="#home" class="nav-link hover:text-burgundy transition">Home</a>
+                <a href="#how-it-works" class="nav-link hover:text-burgundy transition">How It Works</a>
+                <a href="#pricing" class="nav-link hover:text-burgundy transition">Pricing</a>
             </div>
-            <a href="#pricing" class="hidden md:inline-block bg-burgundy text-white px-6 py-2 rounded-full text-sm hover:bg-onyx transition duration-300 shadow-lg">Login</a>
+            <a href="#login" class="hidden md:inline-block bg-burgundy text-white px-6 py-2 rounded-full text-sm hover:bg-onyx transition duration-300 shadow-lg">Client Login</a>
             
-            <!-- Mobile Menu Icon (Visual Only) -->
+            <!-- Mobile Menu -->
             <div class="md:hidden space-y-1.5 cursor-pointer">
                 <div class="w-6 h-0.5 bg-onyx"></div>
                 <div class="w-6 h-0.5 bg-onyx"></div>
@@ -110,169 +143,282 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-20 px-6 min-h-[90vh] flex items-center">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div class="reveal max-w-xl">
-                <h1 class="font-serif text-5xl md:text-7xl font-semibold leading-tight mb-6">Your Texas Business, Elevated.</h1>
-                <p class="text-lg md:text-xl text-gray-700 font-light mb-10 leading-relaxed">Establish a premier corporate presence with a prestigious Houston address. Secure, seamless, and managed entirely from your device.</p>
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <a href="#pricing" class="bg-gold text-onyx font-medium px-8 py-4 rounded-full shadow-[0_8px_24px_rgba(212,175,55,0.4)] hover:shadow-[0_12px_32px_rgba(212,175,55,0.6)] hover:-translate-y-1 transition-all duration-300">Reserve Your Suite</a>
-                </div>
-                <p class="mt-6 text-sm text-gray-500 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-burgundy" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                    Securely located at 13009 Greenway Chase Ct, Houston, TX.
-                </p>
-            </div>
-            
-            <!-- Hero Mockup Abstract Representation -->
-            <div class="reveal relative flex justify-center md:justify-end mt-12 md:mt-0">
-                <div class="w-64 h-[500px] bg-white rounded-[40px] shadow-2xl border-4 border-gray-100 p-4 relative overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition duration-700">
-                    <!-- Fake UI Elements inside phone -->
-                    <div class="w-full h-full bg-beige rounded-[30px] p-4 flex flex-col gap-4">
-                        <div class="w-1/2 h-4 bg-gray-200 rounded-full mx-auto mb-4"></div>
-                        <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3">
-                            <div class="w-8 h-8 bg-burgundy/20 rounded-full mb-2"></div>
-                            <div class="w-3/4 h-3 bg-gray-200 rounded-full mb-2"></div>
-                            <div class="w-1/2 h-3 bg-gray-100 rounded-full"></div>
+    <!-- MAIN SPA CONTAINER -->
+    <main class="pt-24 pb-12">
+        
+        <!-- PAGE 1: HOME -->
+        <section id="view-home" class="page-view active-page">
+            <div class="pt-12 px-6 min-h-[80vh] flex items-center">
+                <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                    <div class="reveal max-w-xl">
+                        <h1 class="font-serif text-5xl md:text-7xl font-semibold leading-tight mb-6">Your Texas Business, Elevated.</h1>
+                        <p class="text-lg md:text-xl text-gray-700 font-light mb-10 leading-relaxed">Establish a premier corporate presence with a prestigious Houston address. Secure, seamless, and managed entirely from your device.</p>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                            <a href="#pricing" class="bg-gold text-onyx font-medium px-8 py-4 rounded-full shadow-[0_8px_24px_rgba(212,175,55,0.4)] hover:shadow-[0_12px_32px_rgba(212,175,55,0.6)] hover:-translate-y-1 transition-all duration-300">Reserve Your Suite</a>
                         </div>
-                        <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3 opacity-70"></div>
-                        <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3 opacity-40"></div>
+                        <p class="mt-6 text-sm text-gray-500 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-burgundy" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            Securely located at 13009 Greenway Chase Ct, Houston, TX.
+                        </p>
+                    </div>
+                    
+                    <div class="reveal relative flex justify-center md:justify-end mt-12 md:mt-0">
+                        <div class="w-64 h-[500px] bg-white rounded-[40px] shadow-2xl border-4 border-gray-100 p-4 relative overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition duration-700">
+                            <div class="w-full h-full bg-beige rounded-[30px] p-4 flex flex-col gap-4">
+                                <div class="w-1/2 h-4 bg-gray-200 rounded-full mx-auto mb-4"></div>
+                                <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3">
+                                    <div class="w-8 h-8 bg-burgundy/20 rounded-full mb-2"></div>
+                                    <div class="w-3/4 h-3 bg-gray-200 rounded-full mb-2"></div>
+                                    <div class="w-1/2 h-3 bg-gray-100 rounded-full"></div>
+                                </div>
+                                <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3 opacity-70"></div>
+                                <div class="w-full h-24 bg-white rounded-xl shadow-sm p-3 opacity-40"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="py-24 px-6 bg-white">
-        <div class="max-w-3xl mx-auto reveal">
-            <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-4 text-center">The White-Glove Mail Experience</h2>
-            <p class="text-center text-gray-600 mb-16 text-lg font-light">Managing your correspondence should feel effortless. Here is how our secure Houston facility handles your mail.</p>
-            
-            <div class="relative pl-8 md:pl-0">
-                <!-- Vertical Line -->
-                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-burgundy/30 transform -translate-x-1/2"></div>
+        <!-- PAGE 2: HOW IT WORKS -->
+        <section id="view-how-it-works" class="page-view bg-white py-12 px-6 min-h-[80vh]">
+            <div class="max-w-3xl mx-auto reveal mt-8">
+                <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-4 text-center">The White-Glove Mail Experience</h2>
+                <p class="text-center text-gray-600 mb-16 text-lg font-light">Managing your correspondence should feel effortless. Here is how our secure Houston facility handles your mail.</p>
                 
-                <!-- Step 1 -->
-                <div class="relative flex flex-col md:flex-row items-center mb-16 reveal">
-                    <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-                        <h3 class="font-serif text-2xl font-semibold mb-2">Secure Your Prestige</h3>
-                        <p class="text-gray-600 font-light">Select your tier and instantly claim your unique suite number at our Greenway Chase location. A real commercial address—never a P.O. Box.</p>
+                <div class="relative pl-8 md:pl-0">
+                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-burgundy/30 transform -translate-x-1/2"></div>
+                    
+                    <div class="relative flex flex-col md:flex-row items-center mb-16">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+                            <h3 class="font-serif text-2xl font-semibold mb-2">Secure Your Prestige</h3>
+                            <p class="text-gray-600 font-light">Select your tier and instantly claim your unique suite number at our Greenway Chase location. A real commercial address—never a P.O. Box.</p>
+                        </div>
+                        <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
+                        <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
                     </div>
-                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
-                    <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
+                    
+                    <div class="relative flex flex-col md:flex-row items-center mb-16">
+                        <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
+                        <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
+                        <div class="md:w-1/2 md:pl-12 mt-6 md:mt-0">
+                            <h3 class="font-serif text-2xl font-semibold mb-2">Discreet Digitization</h3>
+                            <p class="text-gray-600 font-light">As your mail arrives, our dedicated local team securely photographs the exterior envelope and sends a discrete notification directly to your phone.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+                            <h3 class="font-serif text-2xl font-semibold mb-2">Command Your Correspondence</h3>
+                            <p class="text-gray-600 font-light">With a single tap in your digital dashboard, direct us to privately scan the contents, forward packages globally, deposit checks, or securely shred sensitive documents.</p>
+                        </div>
+                        <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
+                        <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: PRICING -->
+        <section id="view-pricing" class="page-view py-12 px-6 bg-beige min-h-[80vh]">
+            <div class="max-w-7xl mx-auto reveal mt-8">
+                <div class="text-center mb-16">
+                    <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-4">Uncompromising Service. Unmatched Value.</h2>
+                    <p class="text-gray-600 text-lg font-light">Premium Texas addresses with transparent pricing—30% less than the national average.</p>
                 </div>
                 
-                <!-- Step 2 -->
-                <div class="relative flex flex-col md:flex-row items-center mb-16 reveal">
-                    <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
-                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
-                    <div class="md:w-1/2 md:pl-12 mt-6 md:mt-0">
-                        <h3 class="font-serif text-2xl font-semibold mb-2">Discreet Digitization</h3>
-                        <p class="text-gray-600 font-light">As your mail arrives, our dedicated local team securely photographs the exterior envelope and sends a discrete notification directly to your phone.</p>
+                <div class="grid lg:grid-cols-3 gap-8 items-center">
+                    <!-- Essential -->
+                    <div class="bg-white rounded-3xl p-8 shadow-sm card-hover border border-gray-100">
+                        <h3 class="font-serif text-2xl font-semibold mb-2">The Essential</h3>
+                        <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Perfect for travelers, digital nomads, and privacy-focused individuals.</p>
+                        <div class="text-4xl font-semibold text-onyx mb-8">$6.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
+                        <ul class="space-y-4 mb-8 text-sm text-gray-700">
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Suite at 13009 Greenway Chase Ct</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 30 Mail Items per Month</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Real-Time Digital Viewing</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Secure Document Shredding</li>
+                        </ul>
+                        <button class="w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Essential</button>
+                    </div>
+
+                    <!-- Executive -->
+                    <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-2 border-burgundy relative transform lg:-translate-y-4">
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-burgundy text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full">Most Popular</div>
+                        <h3 class="font-serif text-2xl font-semibold mb-2">The Executive</h3>
+                        <p class="text-gray-500 text-sm mb-6 min-h-[40px]">The standard for Texas LLCs, startups, and remote founders.</p>
+                        <div class="text-4xl font-semibold text-onyx mb-8">$10.49<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
+                        <ul class="space-y-4 mb-8 text-sm text-gray-700">
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Essential</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 60 Mail Items per Month</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Official Company Name Support</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Registered Agent Capable</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Priority Mail Forwarding</li>
+                        </ul>
+                        <button class="w-full py-3 rounded-full bg-gold text-onyx font-medium hover:bg-yellow-500 transition duration-300 shadow-md">Choose Executive</button>
+                    </div>
+
+                    <!-- Corporate -->
+                    <div class="bg-white rounded-3xl p-8 shadow-sm card-hover border border-gray-100">
+                        <h3 class="font-serif text-2xl font-semibold mb-2">The Corporate</h3>
+                        <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Designed for high-volume agencies and established firms.</p>
+                        <div class="text-4xl font-semibold text-onyx mb-8">$27.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
+                        <ul class="space-y-4 mb-8 text-sm text-gray-700">
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Executive</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 240 Mail Items per Month</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Direct Check Deposit Services</li>
+                            <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Phone & Fax Routing</li>
+                        </ul>
+                        <button class="w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Corporate</button>
                     </div>
                 </div>
-
-                <!-- Step 3 -->
-                <div class="relative flex flex-col md:flex-row items-center reveal">
-                    <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-                        <h3 class="font-serif text-2xl font-semibold mb-2">Command Your Correspondence</h3>
-                        <p class="text-gray-600 font-light">With a single tap in your digital dashboard, direct us to privately scan the contents, forward packages globally, deposit checks, or securely shred sensitive documents.</p>
-                    </div>
-                    <div class="absolute left-[-39px] md:static md:w-8 md:h-8 bg-burgundy rounded-full border-4 border-white shadow flex-shrink-0 z-10"></div>
-                    <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
-                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-24 px-6 bg-beige">
-        <div class="max-w-7xl mx-auto reveal">
-            <div class="text-center mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-4">Uncompromising Service. Unmatched Value.</h2>
-                <p class="text-gray-600 text-lg font-light">Premium Texas addresses with transparent pricing—30% less than the national average.</p>
+        </section>
+        
+        <!-- PAGE 4: LOGIN / DASHBOARD PLACEHOLDER -->
+        <section id="view-login" class="page-view py-24 px-6 bg-white min-h-[80vh] flex items-center justify-center">
+            <div class="max-w-md w-full bg-white border border-gray-200 p-8 rounded-3xl shadow-xl text-center">
+                <div class="gp-logo mb-6">
+                    <span class="gp-initials text-4xl">GP</span>
+                </div>
+                <h2 class="font-serif text-3xl font-semibold mb-2">Welcome Back</h2>
+                <p class="text-gray-500 mb-6 text-sm">Access your secure digital mailbox.</p>
+                <input type="email" placeholder="Email Address" class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-burgundy">
+                <input type="password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:border-burgundy">
+                <button class="w-full py-3 bg-burgundy text-white rounded-lg font-medium hover:bg-onyx transition">Sign In to Dashboard</button>
             </div>
-            
-            <div class="grid lg:grid-cols-3 gap-8 items-center">
-                <!-- Essential -->
-                <div class="bg-white rounded-3xl p-8 shadow-sm card-hover reveal border border-gray-100">
-                    <h3 class="font-serif text-2xl font-semibold mb-2">The Essential</h3>
-                    <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Perfect for travelers, digital nomads, and privacy-focused individuals.</p>
-                    <div class="text-4xl font-semibold text-onyx mb-8">$6.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
-                    <ul class="space-y-4 mb-8 text-sm text-gray-700">
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Suite at 13009 Greenway Chase Ct</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 30 Mail Items per Month</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Real-Time Digital Viewing</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Secure Document Shredding</li>
-                    </ul>
-                    <button class="w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Essential</button>
-                </div>
+        </section>
 
-                <!-- Executive (Highlighted) -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover reveal border-2 border-burgundy relative transform lg:-translate-y-4">
-                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-burgundy text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full">Most Popular</div>
-                    <h3 class="font-serif text-2xl font-semibold mb-2">The Executive</h3>
-                    <p class="text-gray-500 text-sm mb-6 min-h-[40px]">The standard for Texas LLCs, startups, and remote founders.</p>
-                    <div class="text-4xl font-semibold text-onyx mb-8">$10.49<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
-                    <ul class="space-y-4 mb-8 text-sm text-gray-700">
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Essential</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 60 Mail Items per Month</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Official Company Name Support</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Registered Agent Capable</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Priority Mail Forwarding</li>
-                    </ul>
-                    <button class="w-full py-3 rounded-full bg-gold text-onyx font-medium hover:bg-yellow-500 transition duration-300 shadow-md">Choose Executive</button>
-                </div>
+    </main>
 
-                <!-- Corporate -->
-                <div class="bg-white rounded-3xl p-8 shadow-sm card-hover reveal border border-gray-100">
-                    <h3 class="font-serif text-2xl font-semibold mb-2">The Corporate</h3>
-                    <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Designed for high-volume agencies and established firms.</p>
-                    <div class="text-4xl font-semibold text-onyx mb-8">$27.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
-                    <ul class="space-y-4 mb-8 text-sm text-gray-700">
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Executive</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 240 Mail Items per Month</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Direct Check Deposit Services</li>
-                        <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Phone & Fax Routing</li>
-                    </ul>
-                    <button class="w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Corporate</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trust Banner & Footer -->
-    <footer class="bg-onyx text-white py-16 px-6 border-t-[6px] border-burgundy">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center reveal">
+    <!-- Professional, Compliant Footer (iPostal Style) -->
+    <footer class="bg-onyx text-white border-t-[6px] border-burgundy pt-16 pb-8 px-6 text-sm">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <!-- Column 1: Brand & Contact -->
             <div>
-                <h2 class="font-serif text-3xl mb-4">Total Privacy, Fully Compliant.</h2>
-                <p class="text-gray-400 font-light mb-6">Your security is our highest priority. We utilize 256-bit encryption for all digital scans and provide a streamlined, secure onboarding process for your mandatory USPS Form 1583 notarization.</p>
-                <div class="flex gap-4">
-                    <div class="px-4 py-2 bg-white/10 rounded border border-white/20 text-xs tracking-wider uppercase">USPS Certified</div>
-                    <div class="px-4 py-2 bg-white/10 rounded border border-white/20 text-xs tracking-wider uppercase">256-Bit Encrypted</div>
-                </div>
-            </div>
-            <div class="md:text-right border-l md:border-l-0 md:border-r border-burgundy/30 pl-6 md:pr-6 md:pl-0">
-                <div class="gp-logo flex flex-col md:items-end">
-                    <span class="gp-initials">GP</span>
+                <div class="gp-logo items-start mb-6">
+                    <span class="gp-initials text-white">GP</span>
                     <span class="gp-name">GreenwayPost</span>
                 </div>
-                <p class="text-gray-400 font-light mt-4">13009 Greenway Chase Ct<br>Houston, TX 77072</p>
-                <div class="mt-6 flex flex-col md:flex-row justify-end gap-4 text-xs text-gray-500">
-                    <a href="#" class="hover:text-gold transition">Terms of Service</a>
-                    <a href="#" class="hover:text-gold transition">Privacy Policy</a>
-                    <a href="#" class="hover:text-gold transition">USPS Form 1583 Info</a>
+                <p class="text-gray-400 font-light mb-4">Your premium Texas virtual address, providing secure mail management for modern professionals.</p>
+                <p class="text-gray-300 mb-1"><strong class="text-white">Facility:</strong></p>
+                <p class="text-gray-400 font-light mb-4">13009 Greenway Chase Ct<br>Houston, TX 77072</p>
+                <p class="text-gray-300 mb-1"><strong class="text-white">Support:</strong> support@greenwaypost.com</p>
+            </div>
+
+            <!-- Column 2: Services -->
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-gold">Our Services</h4>
+                <ul class="space-y-3 text-gray-400 font-light">
+                    <li><a href="#pricing" class="hover:text-gold transition">Personal Virtual Mailbox</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Business Virtual Address</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Virtual Office Solutions</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Mail Forwarding</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Check Deposit Service</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Company -->
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-gold">Company</h4>
+                <ul class="space-y-3 text-gray-400 font-light">
+                    <li><a href="#home" class="hover:text-gold transition">About Us</a></li>
+                    <li><a href="#how-it-works" class="hover:text-gold transition">How It Works</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Pricing & Plans</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Help Center & FAQs</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Legal & Compliance (Federal/State Laws) -->
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-gold">Legal & Compliance</h4>
+                <ul class="space-y-3 text-gray-400 font-light">
+                    <li><a href="#" class="hover:text-gold transition">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Privacy Policy & CCPA</a></li>
+                    <li><a href="#" class="hover:text-gold transition">USPS Form 1583 Guidelines</a></li>
+                    <li><a href="#" class="hover:text-gold transition">AML/KYC Identity Verification</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Prohibited Items Policy</a></li>
+                </ul>
+                <div class="mt-6 flex gap-3">
+                    <div class="px-3 py-1 bg-white/10 rounded border border-white/20 text-[10px] tracking-wider uppercase text-center flex items-center justify-center">USPS<br>Certified</div>
+                    <div class="px-3 py-1 bg-white/10 rounded border border-white/20 text-[10px] tracking-wider uppercase text-center flex items-center justify-center">256-Bit<br>Secure</div>
                 </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
+            <p>&copy; 2026 GreenwayPost LLC. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">Twitter</a>
+                <a href="#" class="hover:text-white transition">LinkedIn</a>
+                <a href="#" class="hover:text-white transition">Facebook</a>
             </div>
         </div>
     </footer>
 
-    <!-- Scroll Reveal Animation Script -->
+    <!-- GDPR / CCPA Cookie Consent Banner -->
+    <div id="cookie-banner" class="py-4 px-6 border-t-[3px] border-gold">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-light">
+            <div class="flex-1">
+                <strong class="font-medium text-white block mb-1">Your Privacy Matters</strong>
+                <span class="text-gray-300">We use cookies and similar technologies to ensure the proper functioning of our digital mailbox platform, analyze site traffic, and personalize your experience. By clicking "Accept All", you consent to our use of non-essential cookies. Read our <a href="#" class="text-gold underline hover:text-white">Privacy Policy</a> to manage your preferences or learn more about your state consumer privacy rights.</span>
+            </div>
+            <div class="flex flex-shrink-0 gap-3 w-full md:w-auto">
+                <button onclick="acceptCookies()" class="flex-1 md:flex-none px-6 py-2.5 bg-gold text-onyx font-medium rounded-lg hover:bg-white transition">Accept All</button>
+                <button onclick="rejectCookies()" class="flex-1 md:flex-none px-6 py-2.5 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition">Decline Optional</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic (SPA Router, Animations, Cookies) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const reveals = document.querySelectorAll(".reveal");
+            
+            // --- SPA ROUTER LOGIC ---
+            const pages = document.querySelectorAll('.page-view');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function handleRoute() {
+                // Get hash from URL, default to 'home'
+                let hash = window.location.hash.substring(1) || 'home';
+                
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('active-page');
+                });
+                
+                // Show requested page
+                const targetPage = document.getElementById(`view-${hash}`);
+                if (targetPage) {
+                    targetPage.classList.add('active-page');
+                    window.scrollTo(0, 0); // Scroll to top on page change
+                } else {
+                    // Fallback to home if URL is invalid
+                    document.getElementById('view-home').classList.add('active-page');
+                }
+
+                // Update active nav styling (optional visual touch)
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === `#${hash}`) {
+                        link.classList.add('text-burgundy', 'font-semibold');
+                    } else {
+                        link.classList.remove('text-burgundy', 'font-semibold');
+                    }
+                });
+                
+                // Re-trigger scroll animations for the new page
+                triggerReveals();
+            }
+
+            // Listen for URL changes
+            window.addEventListener('hashchange', handleRoute);
+            
+            // Initial load route
+            handleRoute();
+
+
+            // --- SCROLL REVEAL ANIMATIONS ---
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
@@ -281,10 +427,36 @@
                 });
             }, { threshold: 0.1 });
 
-            reveals.forEach((reveal) => {
-                observer.observe(reveal);
-            });
+            function triggerReveals() {
+                const reveals = document.querySelectorAll(".reveal");
+                reveals.forEach((reveal) => {
+                    reveal.classList.remove('active'); // reset
+                    observer.observe(reveal);
+                });
+            }
+
+
+            // --- COOKIE BANNER LOGIC ---
+            const banner = document.getElementById('cookie-banner');
+            
+            // Check local storage for consent
+            if (!localStorage.getItem('greenwaypost_cookie_consent')) {
+                // Delay banner show for a smoother experience
+                setTimeout(() => {
+                    banner.classList.add('show');
+                }, 1000);
+            }
         });
+
+        function acceptCookies() {
+            localStorage.setItem('greenwaypost_cookie_consent', 'accepted');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+
+        function rejectCookies() {
+            localStorage.setItem('greenwaypost_cookie_consent', 'rejected');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
     </script>
 </body>
 </html>
