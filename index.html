@@ -35,6 +35,14 @@
         .gp-logo { display: flex; flex-direction: column; align-items: center; }
         .gp-initials { font-size: 2.2rem; font-weight: 700; color: #800020; margin-bottom: -10px; line-height: 1; }
         .gp-name { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; letter-spacing: 0.1rem; text-transform: uppercase; color: #D4AF37; }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .bg-animated-gradient { background: linear-gradient(-45deg, #F9F6F0, #f3e8d5, #F9F6F0, #ffffff); background-size: 400% 400%; animation: gradientShift 15s ease infinite; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+    .shake-error { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; border-color: #ef4444 !important; }
+    .input-focus-effect:focus-within { transform: scale(1.02); box-shadow: 0 10px 25px -5px rgba(128, 0, 32, 0.15); z-index: 10; }
+    @keyframes blob { 0% { transform: translate(0px, 0px) scale(1); } 33% { transform: translate(30px, -50px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } 100% { transform: translate(0px, 0px) scale(1); } }
+    .animate-blob { animation: blob 7s infinite; }
+    .animation-delay-2000 { animation-delay: 2s; }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-burgundy selection:text-white">
@@ -311,20 +319,42 @@
         </section>
         
         <!-- PAGE 4: LOGIN -->
-        <section id="view-login" class="page-view py-24 px-6 bg-white items-center justify-center">
-            <div class="max-w-md w-full bg-white border border-gray-200 p-8 rounded-3xl shadow-2xl text-center reveal">
-                <div class="gp-logo mb-6">
-                    <span class="gp-initials text-4xl">GP</span>
-                </div>
-                <h2 class="font-serif text-3xl font-semibold mb-2">Client Portal</h2>
-                <p class="text-gray-500 mb-8 text-sm">Log in to manage your digital mailbox, request scans, and forward packages.</p>
-                <form id="login-form" class="space-y-4">
-                    <input type="email" id="email-input" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
-                    <input type="password" id="password-input" placeholder="Password" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
-                    <button type="submit" id="login-btn" class="w-full py-4 bg-burgundy text-white rounded-xl font-bold tracking-wide hover:bg-onyx transition shadow-md">SIGN IN</button>
-                    <p id="login-error" class="text-red-500 text-sm mt-2 hidden"></p>
-                 </form>
+        <section id="view-login" class="page-view py-24 px-6 items-center justify-center bg-animated-gradient min-h-screen relative overflow-hidden">
+    <!-- Animated background blobs -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-burgundy/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+    <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-gold/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+    
+    <div id="login-card" class="max-w-md w-full bg-white/70 backdrop-blur-xl border border-white/50 p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] text-center reveal relative z-10 transition-all duration-500">
+        <div class="gp-logo mb-8 transform hover:scale-110 transition duration-500 ease-out">
+            <span class="gp-initials text-6xl drop-shadow-sm">GP</span>
+        </div>
+        <h2 class="font-serif text-4xl font-semibold mb-2 text-onyx">Client Portal</h2>
+        <p class="text-gray-500 mb-8 text-sm">Access your secure digital mailbox.</p>
+        
+        <form id="login-form" class="space-y-6">
+            <div class="input-focus-effect transition-all duration-300 rounded-xl relative bg-white">
+                <input type="email" id="email-input" placeholder="Email Address" required class="w-full p-4 pt-6 bg-transparent border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition-all peer placeholder-transparent">
+                <label for="email-input" class="absolute left-4 top-4 text-gray-400 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-burgundy font-medium pointer-events-none">Email Address</label>
             </div>
+            
+            <div class="input-focus-effect transition-all duration-300 rounded-xl relative bg-white">
+                <input type="password" id="password-input" placeholder="Password" required class="w-full p-4 pt-6 bg-transparent border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition-all peer placeholder-transparent">
+                <label for="password-input" class="absolute left-4 top-4 text-gray-400 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-burgundy font-medium pointer-events-none">Password</label>
+            </div>
+            
+            <div id="login-error-container" class="hidden overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
+                <div class="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-semibold text-left">
+                    <span id="login-error"></span>
+                </div>
+            </div>
+
+            <button type="submit" id="login-btn" class="w-full py-4 mt-2 bg-gradient-to-r from-burgundy to-onyx text-white rounded-xl font-bold tracking-wide hover:shadow-[0_10px_30px_rgba(128,0,32,0.3)] hover:scale-[1.03] active:scale-95 transition-all duration-300 relative overflow-hidden group">
+                <span id="login-btn-text" class="relative z-10 transition-opacity duration-300">SECURE SIGN IN</span>
+                <svg id="login-spinner" class="animate-spin h-6 w-6 text-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden z-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            </button>
+         </form>
+    </div>
+</section>
         </section>
 
         <!-- PAGE 4.5: REGISTER -->
@@ -686,21 +716,54 @@
 
             // Authentication Forms
             const loginForm = document.getElementById('login-form');
-            if (loginForm) {
-                loginForm.addEventListener('submit', async (e) => {
-                    e.preventDefault(); 
-                    const email = document.getElementById('email-input').value;
-                    const password = document.getElementById('password-input').value;
-                    const { error } = await _supabase.auth.signInWithPassword({ email, password });
-                    if (error) {
-                        const errText = document.getElementById('login-error');
-                        errText.innerText = error.message;
-                        errText.classList.remove('hidden');
-                    } else {
-                        window.location.hash = 'dashboard';
-                    }
-                });
-            }
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); 
+        console.log("Login form submitted..."); // Debug line
+
+        const email = document.getElementById('email-input').value;
+        const password = document.getElementById('password-input').value;
+        
+        // ... (rest of your const declarations) ...
+        const btn = document.getElementById('login-btn');
+        const btnText = document.getElementById('login-btn-text');
+        const spinner = document.getElementById('login-spinner');
+        const errorContainer = document.getElementById('login-error-container');
+        const errorText = document.getElementById('login-error');
+        const loginCard = document.getElementById('login-card');
+
+        errorContainer.classList.add('hidden', 'opacity-0', '-translate-y-2');
+        loginCard.classList.remove('shake-error');
+        btn.disabled = true;
+        btnText.classList.add('opacity-0');
+        spinner.classList.remove('hidden');
+
+        console.log("Attempting auth call..."); // Debug line
+        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        
+        if (error) {
+            console.error("Auth Error:", error); // Critical: Shows the exact error
+            btn.disabled = false;
+            btnText.classList.remove('opacity-0');
+            spinner.classList.add('hidden');
+            errorText.innerText = `Error: ${error.message}`;
+            errorContainer.classList.remove('hidden');
+            void loginCard.offsetWidth; 
+            loginCard.classList.add('shake-error');
+            errorContainer.classList.remove('opacity-0', '-translate-y-2');
+        } else {
+            const session = data?.session;
+            console.log("Login successful, session: ", session);
+
+            // Force the animation to stop
+            const btn = document.querySelector('button[type="submit"]'); // Adjust selector if needed
+            const spinner = document.getElementById('spinner'); // Adjust ID if needed
+            if (btn) btn.disabled = false;
+            if (spinner) spinner.classList.add('hidden');
+
+            window.location.hash = 'dashboard';
+        }
+    });
 
             // Registration + Stripe Routing Logic
             const registerForm = document.getElementById('register-form');
@@ -923,7 +986,7 @@
                         const { data: profile } = await _supabase.from('profiles').select('subscription_status').eq('id', user.id).single();
 
                         if (!profile || profile.subscription_status !== 'active') {
-                            const fallbackLink = 'https://buy.stripe.com/test_YOUR_EXECUTIVE_LINK'; 
+                            const fallbackLink = 'https://buy.stripe.com/5kQ4gy1L72SnezH5QL1VK07';
                             const finalUrl = `${fallbackLink}?client_reference_id=${user.id}`;
 
                             document.getElementById('mail-container').innerHTML = `
@@ -992,6 +1055,7 @@
 
             window.addEventListener('hashchange', handleRoute);
             handleRoute();
+            }
         });
     </script>
 </body>
