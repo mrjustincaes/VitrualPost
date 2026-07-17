@@ -63,7 +63,7 @@
 
     <main class="pt-20 relative">
         
-        <!-- PAGE 1: HOME (RESTORED) -->
+        <!-- PAGE 1: HOME -->
         <section id="view-home" class="page-view active-page">
             <div class="relative bg-white overflow-hidden border-b border-gray-200">
                 <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
@@ -142,7 +142,7 @@
             </div>
         </section>
 
-        <!-- PAGE 2: HOW IT WORKS (RESTORED FULLY) -->
+        <!-- PAGE 2: HOW IT WORKS -->
         <section id="view-how-it-works" class="page-view bg-beige">
             <div class="bg-onyx text-white py-20 px-6 text-center">
                 <div class="max-w-3xl mx-auto reveal">
@@ -196,7 +196,7 @@
             </div>
         </section>
 
-        <!-- PAGE 3: PRICING (RESTORED FULLY & STRIPE READY) -->
+        <!-- PAGE 3: PRICING -->
         <section id="view-pricing" class="page-view bg-white">
             <div class="py-20 px-6">
                 <div class="max-w-7xl mx-auto reveal mt-8">
@@ -216,7 +216,6 @@
                                 <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Real-Time Digital Viewing</li>
                                 <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Secure Document Shredding</li>
                             </ul>
-                            <!-- STRIPE LINK HANDLER ADDED HERE -->
                             <a href="#register" onclick="localStorage.setItem('selectedPlan', 'essential')" class="block text-center w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Essential</a>
                         </div>
 
@@ -232,7 +231,6 @@
                                 <li class="flex items-center"><span class="text-gold mr-3">✔</span> Registered Agent Capable</li>
                                 <li class="flex items-center"><span class="text-gold mr-3">✔</span> Priority Mail Forwarding</li>
                             </ul>
-                            <!-- STRIPE LINK HANDLER ADDED HERE -->
                             <a href="#register" onclick="localStorage.setItem('selectedPlan', 'executive')" class="block text-center w-full py-3 rounded-full bg-gold text-onyx font-bold hover:bg-white transition duration-300 shadow-md">Choose Executive</a>
                         </div>
 
@@ -246,7 +244,6 @@
                                 <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Direct Check Deposit Services</li>
                                 <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Phone & Fax Routing</li>
                             </ul>
-                            <!-- STRIPE LINK HANDLER ADDED HERE -->
                             <a href="#register" onclick="localStorage.setItem('selectedPlan', 'corporate')" class="block text-center w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Corporate</a>
                         </div>
                     </div>
@@ -357,7 +354,6 @@
                     <p class="text-gray-700 text-sm mb-6">Federal law requires us to verify your identity before we can legally open, scan, or forward your mail. <a href="https://about.usps.com/forms/ps1583.pdf" target="_blank" class="text-burgundy font-bold hover:underline">Download the blank USPS Form 1583 here.</a></p>
                     
                     <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Option 1: Self Upload -->
                         <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                             <h3 class="font-bold text-onyx mb-1 text-lg">Option 1: Upload Your Own</h3>
                             <p class="text-sm text-gray-500 mb-4">Upload your notarized Form 1583 and photos of two forms of ID (e.g., Driver's License & Passport).</p>
@@ -366,7 +362,6 @@
                             <p id="upload-feedback" class="text-xs font-semibold mt-2 hidden text-center"></p>
                         </div>
                         
-                        <!-- Option 2: Video Notary -->
                         <div class="bg-beige p-6 rounded-xl border-2 border-gold relative shadow-sm">
                             <div class="absolute -top-3 -right-2 bg-gold text-onyx text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow">Recommended</div>
                             <h3 class="font-bold text-onyx mb-1 text-lg">Option 2: Online Video Notary</h3>
@@ -376,7 +371,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- END COMPLIANCE BANNER -->
 
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden reveal">
                     <div class="bg-onyx text-white px-8 py-5 flex justify-between items-center">
@@ -392,7 +386,7 @@
             </div>
         </section>
 
-        <!-- PAGE 6: ADMIN MAILROOM PORTAL (Hidden Route) -->
+        <!-- PAGE 6: ADMIN MAILROOM PORTAL -->
         <section id="view-admin" class="page-view py-24 px-6 bg-white min-h-screen">
             <div class="max-w-6xl mx-auto">
                 <div class="mb-10 border-b border-gray-200 pb-6 reveal">
@@ -401,7 +395,6 @@
                 </div>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
-                    <!-- LEFT COL: Log Incoming Mail -->
                     <div class="bg-beige p-8 rounded-3xl shadow-sm border border-gray-200">
                         <h2 class="font-serif text-2xl font-semibold mb-6 text-onyx">Log Incoming Mail</h2>
                         <form id="admin-log-form" class="space-y-4">
@@ -423,7 +416,6 @@
                         </form>
                     </div>
                     
-                    <!-- RIGHT COL: Action Queue -->
                     <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200">
                         <h2 class="font-serif text-2xl font-semibold mb-6 flex justify-between items-center text-onyx">
                             Client Action Queue
@@ -466,7 +458,7 @@
 
     </main>
 
-    <!-- FOOTER (RESTORED FULLY) -->
+    <!-- FOOTER -->
     <footer class="bg-onyx text-white border-t-[6px] border-burgundy pt-16 pb-8 px-6 text-sm">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
@@ -527,7 +519,7 @@
         </div>
     </footer>
 
-    <!-- COOKIE BANNER (RESTORED FULLY) -->
+    <!-- COOKIE BANNER -->
     <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-onyx text-white z-[9999] transform translate-y-full transition-transform duration-400 shadow-[0_-4px_20px_rgba(0,0,0,0.2)] py-4 px-6 border-t-[3px] border-gold">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-light">
             <div class="flex-1">
@@ -829,6 +821,28 @@
                     const { data: suiteData } = await _supabase.from('suites').select('suite_number').eq('profile_id', user.id).maybeSingle();
                     if (suiteData) document.getElementById('dash-suite').innerText = "Suite " + suiteData.suite_number;
 
+                    // SUBSCRIPTION ENFORCEMENT LOCK SCREEN
+                    const { data: profile } = await _supabase.from('profiles').select('subscription_status').eq('id', user.id).single();
+
+                    if (!profile || profile.subscription_status !== 'active') {
+                        // Using Executive plan as the default fallback link for resuming payment
+                        const fallbackLink = 'https://buy.stripe.com/test_YOUR_EXECUTIVE_LINK'; 
+                        const finalUrl = `${fallbackLink}?client_reference_id=${user.id}`;
+
+                        document.getElementById('mail-container').innerHTML = `
+                            <div class="col-span-full text-center py-20 bg-red-50 rounded-xl border border-burgundy shadow-sm mt-4">
+                                <h3 class="font-serif text-2xl font-semibold text-burgundy mb-2">Subscription Inactive</h3>
+                                <p class="text-gray-600 mb-6">Complete your Stripe checkout to unlock your secure mailbox.</p>
+                                <button onclick="window.location.href='${finalUrl}'" class="bg-burgundy text-white px-8 py-3 rounded-full font-semibold shadow hover:bg-onyx transition">Complete Payment</button>
+                            </div>
+                        `;
+                        document.getElementById('loading-mail-state').classList.add('hidden');
+                        document.getElementById('empty-mail-state').classList.add('hidden');
+                        document.getElementById('mail-container').classList.remove('hidden');
+                        return; // Halt mail fetching
+                    }
+
+                    // Proceed to fetch mail only if 'active'
                     const { data: mailItems } = await _supabase.from('mail_items').select('*').order('received_at', { ascending: false });
                     
                     document.getElementById('loading-mail-state').classList.add('hidden');
