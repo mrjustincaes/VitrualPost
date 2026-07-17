@@ -53,10 +53,21 @@
             </div>
             <a href="#login" class="hidden md:inline-block bg-burgundy text-white px-6 py-2 rounded-full text-sm hover:bg-onyx transition duration-300 shadow-lg">Client Login</a>
             
-            <div class="md:hidden space-y-1.5 cursor-pointer">
-                <div class="w-6 h-0.5 bg-onyx"></div>
-                <div class="w-6 h-0.5 bg-onyx"></div>
-                <div class="w-4 h-0.5 bg-onyx"></div>
+            <!-- Mobile Menu Button -->
+            <div id="mobile-menu-btn" class="md:hidden space-y-1.5 cursor-pointer p-2">
+                <div class="w-6 h-0.5 bg-onyx transition-all"></div>
+                <div class="w-6 h-0.5 bg-onyx transition-all"></div>
+                <div class="w-4 h-0.5 bg-onyx transition-all"></div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Dropdown -->
+        <div id="mobile-nav" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="flex flex-col px-6 py-4 space-y-4 text-sm font-medium">
+                <a href="#home" class="nav-link hover:text-burgundy transition mobile-link">Home</a>
+                <a href="#how-it-works" class="nav-link hover:text-burgundy transition mobile-link">How It Works</a>
+                <a href="#pricing" class="nav-link hover:text-burgundy transition mobile-link">Pricing</a>
+                <a href="#login" class="text-burgundy font-bold mobile-link">Client Login</a>
             </div>
         </div>
     </nav>
@@ -331,6 +342,9 @@
                     </div>
                     <input type="email" id="reg-email" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
                     <input type="password" id="reg-password" placeholder="Create Password" required minlength="6" class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
+                    <!-- Added Confirm Password -->
+                    <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required minlength="6" class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
+                    
                     <button type="submit" id="register-btn" class="w-full py-4 bg-gold text-onyx rounded-xl font-bold hover:bg-white border-2 border-transparent hover:border-gold transition shadow-md">CREATE ACCOUNT & PAY</button>
                     <p id="register-error" class="text-red-500 text-sm mt-2 hidden"></p>
                  </form>
@@ -398,10 +412,8 @@
                     <div class="bg-beige p-8 rounded-3xl shadow-sm border border-gray-200">
                         <h2 class="font-serif text-2xl font-semibold mb-6 text-onyx">Log Incoming Mail</h2>
                         <form id="admin-log-form" class="space-y-4">
-                            <div class="flex gap-4">
-                                <input type="number" id="admin-suite" placeholder="Suite ID (e.g. 2)" required class="w-1/3 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
-                                <input type="text" id="admin-profile" placeholder="Client Profile ID (UUID)" required class="w-2/3 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
-                            </div>
+                            <!-- Removed Profile ID input. The backend will fetch it using the suite number -->
+                            <input type="number" id="admin-suite" placeholder="Suite ID (e.g. 2)" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
                             <input type="text" id="admin-sender" placeholder="Sender (e.g., Internal Revenue Service)" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
                             <select id="admin-type" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy bg-white">
                                 <option value="" disabled selected>Select Mail Type</option>
@@ -539,6 +551,33 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzZHNwdnNvZHllZ2RsYmt6bXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMzEzNTIsImV4cCI6MjA5OTgwNzM1Mn0.ivv6TZo1msXQkDmjQlXFHoIAhgGyR6xu6-_o5K4Dplw';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+        // Security Utility: Escape HTML to prevent XSS
+        const escapeHTML = (str) => {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+                }[tag] || tag)
+            );
+        };
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNav.classList.toggle('hidden');
+            });
+            // Close menu on link click
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.add('hidden');
+                });
+            });
+        }
+
         // Cookies
         function acceptCookies() { localStorage.setItem('greenwaypost_cookie_consent', 'accepted'); document.getElementById('cookie-banner').classList.remove('translate-y-0'); document.getElementById('cookie-banner').classList.add('translate-y-full'); }
         function rejectCookies() { localStorage.setItem('greenwaypost_cookie_consent', 'rejected'); document.getElementById('cookie-banner').classList.remove('translate-y-0'); document.getElementById('cookie-banner').classList.add('translate-y-full'); }
@@ -608,6 +647,9 @@
                 } else {
                     actionHTML = `<span class="text-green-600 font-bold text-xs uppercase tracking-wider">✔ Done</span>`;
                 }
+                
+                // Sanitized Sender Input applied here
+                const safeSender = escapeHTML(req.mail_items?.sender);
 
                 queueContainer.innerHTML += `
                     <div class="border-l-4 border-burgundy bg-gray-50 p-4 rounded-r-xl flex justify-between items-center shadow-sm mb-4">
@@ -617,7 +659,7 @@
                                 <span class="font-bold uppercase tracking-wide text-xs text-onyx">${req.request_type} Request</span>
                                 <span class="${req.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-200 text-yellow-800'} text-[10px] font-bold px-2 py-0.5 rounded uppercase">${req.status}</span>
                             </div>
-                            <p class="text-sm font-medium text-gray-800">Target: ${req.mail_items?.sender} (${req.mail_items?.mail_type})</p>
+                            <p class="text-sm font-medium text-gray-800">Target: ${safeSender} (${req.mail_items?.mail_type})</p>
                             <p class="text-xs text-gray-500 mt-1">${date}</p>
                         </div>
                         ${actionHTML}
@@ -650,7 +692,13 @@
                     const email = document.getElementById('email-input').value;
                     const password = document.getElementById('password-input').value;
                     const { error } = await _supabase.auth.signInWithPassword({ email, password });
-                    if (error) alert(error.message); else window.location.hash = 'dashboard';
+                    if (error) {
+                        const errText = document.getElementById('login-error');
+                        errText.innerText = error.message;
+                        errText.classList.remove('hidden');
+                    } else {
+                        window.location.hash = 'dashboard';
+                    }
                 });
             }
 
@@ -663,17 +711,29 @@
                     const lastName = document.getElementById('reg-last-name').value;
                     const email = document.getElementById('reg-email').value;
                     const password = document.getElementById('reg-password').value;
+                    const confirmPassword = document.getElementById('reg-confirm-password').value;
                     const btn = document.getElementById('register-btn');
+                    const errorText = document.getElementById('register-error');
                     
+                    if (password !== confirmPassword) {
+                        errorText.innerText = "Passwords do not match.";
+                        errorText.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    errorText.classList.add('hidden');
                     btn.innerHTML = "Creating Account...";
+                    btn.disabled = true;
 
                     const { data, error } = await _supabase.auth.signUp({
-                        email, password, options: { data: { first_name: firstName, last_name: lastName } }
+                        email, password, options: { data: { first_name: firstName, last_name: lastName, role: 'client' } }
                     });
 
                     if (error) { 
                         btn.innerHTML = "CREATE ACCOUNT & PAY"; 
-                        alert(error.message); 
+                        btn.disabled = false;
+                        errorText.innerText = error.message;
+                        errorText.classList.remove('hidden');
                         return;
                     }
 
@@ -726,6 +786,9 @@
                     }
 
                     if (successCount === fileInput.files.length) {
+                        // Mark user profile as pending review so admins know files are ready
+                        await _supabase.from('profiles').update({ compliance_status: 'pending_review' }).eq('id', session.user.id);
+                        
                         feedback.innerText = "Documents submitted successfully for review!";
                         feedback.className = "text-green-600 text-xs font-semibold mt-2 block text-center";
                         uploadBtn.innerText = "Submitted";
@@ -765,13 +828,33 @@
                     feedback.classList.add('hidden');
 
                     const suite_id = document.getElementById('admin-suite').value;
-                    const profile_id = document.getElementById('admin-profile').value;
                     const sender = document.getElementById('admin-sender').value;
                     const mail_type = document.getElementById('admin-type').value;
                     const image_url = document.getElementById('admin-image').value;
 
+                    // 1. Find Profile UUID based on Suite Number
+                    const { data: suiteData, error: suiteError } = await _supabase
+                        .from('suites')
+                        .select('profile_id')
+                        .eq('suite_number', parseInt(suite_id))
+                        .single();
+
+                    if (suiteError || !suiteData) {
+                        feedback.innerText = "Suite Not Found. Please verify the suite number.";
+                        feedback.className = "text-red-500 text-sm font-semibold mt-2 text-center";
+                        feedback.classList.remove('hidden');
+                        btn.innerHTML = "PROCESS NEW MAIL";
+                        return;
+                    }
+
+                    // 2. Insert mail item attached to fetched Profile ID
                     const { error } = await _supabase.from('mail_items').insert({
-                        suite_id: parseInt(suite_id), profile_id: profile_id, sender: sender, mail_type: mail_type, image_url: image_url, status: 'received'
+                        suite_id: parseInt(suite_id), 
+                        profile_id: suiteData.profile_id, 
+                        sender: sender, 
+                        mail_type: mail_type, 
+                        image_url: image_url, 
+                        status: 'received'
                     });
 
                     if (error) {
@@ -786,7 +869,10 @@
                         btn.innerHTML = "SUCCESS";
                         btn.classList.replace('bg-onyx', 'bg-green-600');
                         setTimeout(() => {
-                            adminLogForm.reset(); btn.innerHTML = "PROCESS NEW MAIL"; btn.classList.replace('bg-green-600', 'bg-onyx'); feedback.classList.add('hidden');
+                            adminLogForm.reset(); 
+                            btn.innerHTML = "PROCESS NEW MAIL"; 
+                            btn.classList.replace('bg-green-600', 'bg-onyx'); 
+                            feedback.classList.add('hidden');
                         }, 2000);
                     }
                 });
@@ -794,7 +880,7 @@
 
             // Router Engine
             const pages = document.querySelectorAll('.page-view');
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("active"); });
             }, { threshold: 0.1 });
@@ -811,70 +897,82 @@
                     }
                 });
 
-                if (hash === 'dashboard') {
+                if (hash === 'dashboard' || hash === 'admin') {
                     const { data: { session } } = await _supabase.auth.getSession();
                     if (!session) { window.location.hash = 'login'; return; }
                     
                     const user = session.user;
-                    document.getElementById('dash-name').innerText = user.user_metadata?.first_name || user.email.split('@')[0];
-
-                    const { data: suiteData } = await _supabase.from('suites').select('suite_number').eq('profile_id', user.id).maybeSingle();
-                    if (suiteData) document.getElementById('dash-suite').innerText = "Suite " + suiteData.suite_number;
-
-                    // SUBSCRIPTION ENFORCEMENT LOCK SCREEN
-                    const { data: profile } = await _supabase.from('profiles').select('subscription_status').eq('id', user.id).single();
-
-                    if (!profile || profile.subscription_status !== 'active') {
-                        // Using Executive plan as the default fallback link for resuming payment
-                        const fallbackLink = 'https://buy.stripe.com/test_YOUR_EXECUTIVE_LINK'; 
-                        const finalUrl = `${fallbackLink}?client_reference_id=${user.id}`;
-
-                        document.getElementById('mail-container').innerHTML = `
-                            <div class="col-span-full text-center py-20 bg-red-50 rounded-xl border border-burgundy shadow-sm mt-4">
-                                <h3 class="font-serif text-2xl font-semibold text-burgundy mb-2">Subscription Inactive</h3>
-                                <p class="text-gray-600 mb-6">Complete your Stripe checkout to unlock your secure mailbox.</p>
-                                <button onclick="window.location.href='${finalUrl}'" class="bg-burgundy text-white px-8 py-3 rounded-full font-semibold shadow hover:bg-onyx transition">Complete Payment</button>
-                            </div>
-                        `;
-                        document.getElementById('loading-mail-state').classList.add('hidden');
-                        document.getElementById('empty-mail-state').classList.add('hidden');
-                        document.getElementById('mail-container').classList.remove('hidden');
-                        return; // Halt mail fetching
+                    
+                    // Admin Protection Route Check
+                    if (hash === 'admin') {
+                        // Checking metadata for admin role
+                        if (user.user_metadata?.role !== 'admin') {
+                            window.location.hash = 'dashboard';
+                            return;
+                        }
+                        fetchAdminQueue();
                     }
 
-                    // Proceed to fetch mail only if 'active'
-                    const { data: mailItems } = await _supabase.from('mail_items').select('*').order('received_at', { ascending: false });
-                    
-                    document.getElementById('loading-mail-state').classList.add('hidden');
-                    const mailContainer = document.getElementById('mail-container');
-                    
-                    if (!mailItems || mailItems.length === 0) {
-                        document.getElementById('empty-mail-state').classList.remove('hidden');
-                    } else {
-                        document.getElementById('mail-count').innerText = `${mailItems.length} Items`;
-                        mailContainer.innerHTML = '';
-                        mailContainer.classList.remove('hidden');
-                        mailItems.forEach(item => {
-                            const date = new Date(item.received_at).toLocaleDateString();
-                            mailContainer.innerHTML += `
-                                <div class="border border-gray-200 rounded-xl p-5 hover:shadow-lg transition bg-beige/30">
-                                    <div class="flex justify-between items-start mb-4">
-                                        <span class="text-xs font-bold uppercase tracking-wider text-burgundy bg-red-50 px-2 py-1 rounded">${item.mail_type}</span>
-                                        <span class="text-xs text-gray-400">${date}</span>
-                                    </div>
-                                    <h3 class="font-bold text-onyx mb-1 truncate">From: ${item.sender}</h3>
-                                    <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium ${item.status === 'scanned' || item.status === 'shredded' || item.status === 'forwarded' ? 'text-green-600' : ''}">${item.status}</span></p>
-                                    <div class="flex gap-2">
-                                        <a href="${item.image_url}" target="_blank" class="flex-1 text-center bg-white border border-gray-300 text-xs font-semibold py-2 rounded shadow-sm hover:bg-gray-50">View Image</a>
-                                        ${item.status !== 'shredded' && item.status !== 'forwarded' ? `<button onclick="openModal('${item.id}')" class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>` : ''}
-                                    </div>
+                    if (hash === 'dashboard') {
+                        document.getElementById('dash-name').innerText = escapeHTML(user.user_metadata?.first_name) || escapeHTML(user.email.split('@')[0]);
+
+                        const { data: suiteData } = await _supabase.from('suites').select('suite_number').eq('profile_id', user.id).maybeSingle();
+                        if (suiteData) document.getElementById('dash-suite').innerText = "Suite " + escapeHTML(suiteData.suite_number.toString());
+
+                        // SUBSCRIPTION ENFORCEMENT LOCK SCREEN
+                        const { data: profile } = await _supabase.from('profiles').select('subscription_status').eq('id', user.id).single();
+
+                        if (!profile || profile.subscription_status !== 'active') {
+                            const fallbackLink = 'https://buy.stripe.com/test_YOUR_EXECUTIVE_LINK'; 
+                            const finalUrl = `${fallbackLink}?client_reference_id=${user.id}`;
+
+                            document.getElementById('mail-container').innerHTML = `
+                                <div class="col-span-full text-center py-20 bg-red-50 rounded-xl border border-burgundy shadow-sm mt-4">
+                                    <h3 class="font-serif text-2xl font-semibold text-burgundy mb-2">Subscription Inactive</h3>
+                                    <p class="text-gray-600 mb-6">Complete your Stripe checkout to unlock your secure mailbox.</p>
+                                    <button onclick="window.location.href='${finalUrl}'" class="bg-burgundy text-white px-8 py-3 rounded-full font-semibold shadow hover:bg-onyx transition">Complete Payment</button>
                                 </div>
                             `;
-                        });
+                            document.getElementById('loading-mail-state').classList.add('hidden');
+                            document.getElementById('empty-mail-state').classList.add('hidden');
+                            document.getElementById('mail-container').classList.remove('hidden');
+                            return; 
+                        }
+
+                        // Proceed to fetch mail only if 'active'
+                        const { data: mailItems } = await _supabase.from('mail_items').select('*').order('received_at', { ascending: false });
+                        
+                        document.getElementById('loading-mail-state').classList.add('hidden');
+                        const mailContainer = document.getElementById('mail-container');
+                        
+                        if (!mailItems || mailItems.length === 0) {
+                            document.getElementById('empty-mail-state').classList.remove('hidden');
+                        } else {
+                            document.getElementById('mail-count').innerText = `${mailItems.length} Items`;
+                            mailContainer.innerHTML = '';
+                            mailContainer.classList.remove('hidden');
+                            mailItems.forEach(item => {
+                                const date = new Date(item.received_at).toLocaleDateString();
+                                const safeSender = escapeHTML(item.sender);
+                                
+                                mailContainer.innerHTML += `
+                                    <div class="border border-gray-200 rounded-xl p-5 hover:shadow-lg transition bg-beige/30">
+                                        <div class="flex justify-between items-start mb-4">
+                                            <span class="text-xs font-bold uppercase tracking-wider text-burgundy bg-red-50 px-2 py-1 rounded">${escapeHTML(item.mail_type)}</span>
+                                            <span class="text-xs text-gray-400">${date}</span>
+                                        </div>
+                                        <h3 class="font-bold text-onyx mb-1 truncate">From: ${safeSender}</h3>
+                                        <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium ${item.status === 'scanned' || item.status === 'shredded' || item.status === 'forwarded' ? 'text-green-600' : ''}">${escapeHTML(item.status)}</span></p>
+                                        <div class="flex gap-2">
+                                            <a href="${escapeHTML(item.image_url)}" target="_blank" class="flex-1 text-center bg-white border border-gray-300 text-xs font-semibold py-2 rounded shadow-sm hover:bg-gray-50">View Image</a>
+                                            ${item.status !== 'shredded' && item.status !== 'forwarded' ? `<button onclick="openModal('${item.id}')" class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                        }
                     }
                 }
-
-                if (hash === 'admin') { fetchAdminQueue(); }
 
                 pages.forEach(page => {
                     page.classList.remove('active-page');
