@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GreenwayPost | Premium Virtual Address | Houston, TX</title>
     
+    <!-- Favicon / Logo Setup -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -179,7 +184,7 @@
                         <div class="md:w-1/2">
                             <span class="text-burgundy font-bold tracking-widest uppercase text-sm mb-2 block">Step 1</span>
                             <h2 class="font-serif text-4xl font-semibold mb-4">Secure Your Suite Number</h2>
-                            <p class="text-gray-600 mb-6 font-light leading-relaxed">Select a plan and instantly receive your unique suite number at <strong>13009 Greenway Chase Ct</strong>. You will complete a simple, secure onboarding process to notarize USPS Form 1583 (required by federal law), granting us permission to legally handle your mail.</p>
+                            <p class="text-gray-600 mb-6 font-light leading-relaxed">Select a plan and instantly receive your unique suite number at 13009 Greenway Chase Ct. You will complete a simple, secure onboarding process to notarize USPS Form 1583 (required by federal law), granting us permission to legally handle your mail.</p>
                             <a href="#pricing" class="text-burgundy font-medium hover:text-gold transition border-b border-burgundy pb-1">View Pricing Plans &rarr;</a>
                         </div>
                     </div>
@@ -204,10 +209,10 @@
                             <h2 class="font-serif text-4xl font-semibold mb-4">You Take Command</h2>
                             <p class="text-gray-600 mb-4 font-light leading-relaxed">Log into your secure digital dashboard to view your new mail. With a single tap, you can instruct us to:</p>
                             <ul class="space-y-3 text-sm text-gray-700">
-                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">📄</span> <strong>Open & Scan:</strong> We scan the interior documents as a PDF.</li>
-                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">📦</span> <strong>Forward:</strong> Ship the physical item anywhere in the world.</li>
-                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">♻️</span> <strong>Shred & Recycle:</strong> Securely destroy unwanted mail.</li>
-                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">🏦</span> <strong>Deposit Checks:</strong> We mail your checks directly to your bank.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">📄</span> <strong class="mr-1">Open & Scan:</strong> We scan the interior documents as a PDF.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">📦</span> <strong class="mr-1">Forward:</strong> Ship the physical item anywhere in the world.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">♻️</span> <strong class="mr-1">Shred & Recycle:</strong> Securely destroy unwanted mail.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">🏦</span> <strong class="mr-1">Deposit Checks:</strong> We mail your checks directly to your bank.</li>
                             </ul>
                         </div>
                     </div>
@@ -716,54 +721,54 @@
 
             // Authentication Forms
             const loginForm = document.getElementById('login-form');
-if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); 
-        console.log("Login form submitted..."); // Debug line
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); 
+                    console.log("Login form submitted...");
 
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
-        
-        // ... (rest of your const declarations) ...
-        const btn = document.getElementById('login-btn');
-        const btnText = document.getElementById('login-btn-text');
-        const spinner = document.getElementById('login-spinner');
-        const errorContainer = document.getElementById('login-error-container');
-        const errorText = document.getElementById('login-error');
-        const loginCard = document.getElementById('login-card');
+                    const email = document.getElementById('email-input').value;
+                    const password = document.getElementById('password-input').value;
+                    
+                    const btn = document.getElementById('login-btn');
+                    const btnText = document.getElementById('login-btn-text');
+                    const spinner = document.getElementById('login-spinner');
+                    const errorContainer = document.getElementById('login-error-container');
+                    const errorText = document.getElementById('login-error');
+                    const loginCard = document.getElementById('login-card');
 
-        errorContainer.classList.add('hidden', 'opacity-0', '-translate-y-2');
-        loginCard.classList.remove('shake-error');
-        btn.disabled = true;
-        btnText.classList.add('opacity-0');
-        spinner.classList.remove('hidden');
+                    errorContainer.classList.add('hidden', 'opacity-0', '-translate-y-2');
+                    loginCard.classList.remove('shake-error');
+                    btn.disabled = true;
+                    btnText.classList.add('opacity-0');
+                    spinner.classList.remove('hidden');
 
-        console.log("Attempting auth call..."); // Debug line
-        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-        
-        if (error) {
-            console.error("Auth Error:", error); // Critical: Shows the exact error
-            btn.disabled = false;
-            btnText.classList.remove('opacity-0');
-            spinner.classList.add('hidden');
-            errorText.innerText = `Error: ${error.message}`;
-            errorContainer.classList.remove('hidden');
-            void loginCard.offsetWidth; 
-            loginCard.classList.add('shake-error');
-            errorContainer.classList.remove('opacity-0', '-translate-y-2');
-        } else {
-            const session = data?.session;
-            console.log("Login successful, session: ", session);
+                    console.log("Attempting auth call...");
+                    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+                    
+                    if (error) {
+                        console.error("Auth Error:", error);
+                        btn.disabled = false;
+                        btnText.classList.remove('opacity-0');
+                        spinner.classList.add('hidden');
+                        errorText.innerText = `Error: ${error.message}`;
+                        errorContainer.classList.remove('hidden');
+                        void loginCard.offsetWidth; 
+                        loginCard.classList.add('shake-error');
+                        errorContainer.classList.remove('opacity-0', '-translate-y-2');
+                    } else {
+                        const session = data?.session;
+                        console.log("Login successful, session: ", session);
 
-            // Force the animation to stop
-            const btn = document.querySelector('button[type="submit"]'); // Adjust selector if needed
-            const spinner = document.getElementById('spinner'); // Adjust ID if needed
-            if (btn) btn.disabled = false;
-            if (spinner) spinner.classList.add('hidden');
+                        // Stop the animation and restore button text
+                        btn.disabled = false;
+                        btnText.classList.remove('opacity-0');
+                        spinner.classList.add('hidden');
 
-            window.location.hash = 'dashboard';
-        }
-    });
+                        // Navigate to dashboard
+                        window.location.hash = 'dashboard';
+                    }
+                });
+            }
 
             // Registration + Stripe Routing Logic
             const registerForm = document.getElementById('register-form');
@@ -1055,7 +1060,6 @@ if (loginForm) {
 
             window.addEventListener('hashchange', handleRoute);
             handleRoute();
-            }
         });
     </script>
 </body>
