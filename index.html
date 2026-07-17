@@ -188,7 +188,6 @@
                 </div>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
-                    
                     <!-- LEFT COL: Log Incoming Mail -->
                     <div class="bg-beige p-8 rounded-3xl shadow-sm border border-gray-200">
                         <h2 class="font-serif text-2xl font-semibold mb-6 text-onyx">Log Incoming Mail</h2>
@@ -222,7 +221,6 @@
                             <p class="text-gray-500 text-center py-10">Loading client requests...</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -299,9 +297,7 @@
             } else {
                 feedback.innerText = "Request sent to Houston facility!";
                 feedback.className = "text-green-600 text-sm font-semibold mt-6 text-center";
-                
                 await _supabase.from('mail_items').update({status: 'Processing ' + requestType}).eq('id', mailId);
-                
                 setTimeout(() => { closeModal(); window.dispatchEvent(new Event('hashchange')); }, 1500);
             }
         }
@@ -313,21 +309,13 @@
             
             queueContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Refreshing queue...</p>';
             
-            // Fetch requests and join with the mail_items data
+            // Notice we added mail_item_id to the select statement here!
             const { data, error } = await _supabase
                 .from('mail_requests')
-                .select(`
-                    id, request_type, status, created_at,
-                    mail_items (sender, mail_type)
-                `)
+                .select(`id, request_type, status, created_at, mail_item_id, mail_items (sender, mail_type)`)
                 .order('created_at', { ascending: false });
 
-            if (error) {
-                queueContainer.innerHTML = `<p class="text-red-500 text-sm">Error loading queue: ${error.message}</p>`;
-                return;
-            }
-
-            if (!data || data.length === 0) {
+            if (error || !data || data.length === 0) {
                 queueContainer.innerHTML = '<p class="text-gray-500 text-center py-4 border-2 border-dashed border-gray-200 rounded-xl">Queue is empty. No pending tasks!</p>';
                 return;
             }
@@ -337,28 +325,50 @@
                 const date = new Date(req.created_at).toLocaleDateString() + ' ' + new Date(req.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 const icon = req.request_type === 'scan' ? '📄' : req.request_type === 'forward' ? '📦' : req.request_type === 'shred' ? '♻️' : '🏦';
                 
+                // Smart Button logic: Show "Mark Complete" if pending, else show a green check.
+                let actionHTML = '';
+                if (req.status !== 'Completed') {
+                    actionHTML = `<button onclick="markRequestComplete('${req.id}', '${req.mail_item_id}', '${req.request_type}')" class="bg-white border border-gray-300 text-xs font-semibold py-2 px-4 rounded shadow-sm hover:bg-green-500 hover:text-white hover:border-green-500 transition">Mark Complete</button>`;
+                } else {
+                    actionHTML = `<span class="text-green-600 font-bold text-xs uppercase tracking-wider">✔ Done</span>`;
+                }
+
                 const card = `
                     <div class="border-l-4 border-burgundy bg-gray-50 p-4 rounded-r-xl flex justify-between items-center shadow-sm">
                         <div>
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="text-lg">${icon}</span>
                                 <span class="font-bold uppercase tracking-wide text-xs text-onyx">${req.request_type} Request</span>
-                                <span class="bg-yellow-200 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">${req.status}</span>
+                                <span class="${req.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-200 text-yellow-800'} text-[10px] font-bold px-2 py-0.5 rounded uppercase">${req.status}</span>
                             </div>
                             <p class="text-sm font-medium text-gray-800">Target: ${req.mail_items?.sender} (${req.mail_items?.mail_type})</p>
                             <p class="text-xs text-gray-500 mt-1">${date}</p>
                         </div>
-                        <button class="bg-white border border-gray-300 text-xs font-semibold py-2 px-4 rounded shadow-sm hover:bg-green-500 hover:text-white hover:border-green-500 transition">Mark Complete</button>
+                        ${actionHTML}
                     </div>
                 `;
                 queueContainer.innerHTML += card;
             });
         }
 
+        // The Engine that closes the loop
+        async function markRequestComplete(requestId, mailItemId, requestType) {
+            // 1. Determine the past-tense status
+            const statusMap = { 'scan': 'scanned', 'forward': 'forwarded', 'shred': 'shredded', 'deposit': 'deposited' };
+            const finalStatus = statusMap[requestType] || 'processed';
+
+            // 2. Mark the internal request log as Completed
+            await _supabase.from('mail_requests').update({ status: 'Completed' }).eq('id', requestId);
+
+            // 3. Update the client's mail item to the final state
+            await _supabase.from('mail_items').update({ status: finalStatus }).eq('id', mailItemId);
+
+            // 4. Reload the admin UI instantly
+            fetchAdminQueue();
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             
-            // Authentication Forms
             const loginForm = document.getElementById('login-form');
             if (loginForm) {
                 loginForm.addEventListener('submit', async (e) => {
@@ -399,14 +409,12 @@
                 });
             }
 
-            // --- ADMIN LOG MAIL FORM ---
             const adminLogForm = document.getElementById('admin-log-form');
             if (adminLogForm) {
                 adminLogForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const btn = document.getElementById('admin-submit-btn');
                     const feedback = document.getElementById('admin-log-feedback');
-                    
                     btn.innerHTML = "UPLOADING...";
                     feedback.classList.add('hidden');
 
@@ -417,12 +425,7 @@
                     const image_url = document.getElementById('admin-image').value;
 
                     const { error } = await _supabase.from('mail_items').insert({
-                        suite_id: parseInt(suite_id),
-                        profile_id: profile_id,
-                        sender: sender,
-                        mail_type: mail_type,
-                        image_url: image_url,
-                        status: 'received'
+                        suite_id: parseInt(suite_id), profile_id: profile_id, sender: sender, mail_type: mail_type, image_url: image_url, status: 'received'
                     });
 
                     if (error) {
@@ -436,19 +439,13 @@
                         feedback.classList.remove('hidden');
                         btn.innerHTML = "SUCCESS";
                         btn.classList.replace('bg-onyx', 'bg-green-600');
-                        
-                        // Reset form after 2 seconds
                         setTimeout(() => {
-                            adminLogForm.reset();
-                            btn.innerHTML = "PROCESS NEW MAIL";
-                            btn.classList.replace('bg-green-600', 'bg-onyx');
-                            feedback.classList.add('hidden');
+                            adminLogForm.reset(); btn.innerHTML = "PROCESS NEW MAIL"; btn.classList.replace('bg-green-600', 'bg-onyx'); feedback.classList.add('hidden');
                         }, 2000);
                     }
                 });
             }
 
-            // Router
             const pages = document.querySelectorAll('.page-view');
             const navLinks = document.querySelectorAll('.nav-link');
             const observer = new IntersectionObserver((entries) => {
@@ -458,7 +455,6 @@
             async function handleRoute() {
                 let hash = window.location.hash.substring(1) || 'home';
                 
-                // Dashboard Logic
                 if (hash === 'dashboard') {
                     const { data: { session } } = await _supabase.auth.getSession();
                     if (!session) { window.location.hash = 'login'; return; }
@@ -489,10 +485,10 @@
                                         <span class="text-xs text-gray-400">${date}</span>
                                     </div>
                                     <h3 class="font-bold text-onyx mb-1 truncate">From: ${item.sender}</h3>
-                                    <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium">${item.status}</span></p>
+                                    <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium ${item.status === 'scanned' || item.status === 'shredded' || item.status === 'forwarded' ? 'text-green-600' : ''}">${item.status}</span></p>
                                     <div class="flex gap-2">
                                         <a href="${item.image_url}" target="_blank" class="flex-1 text-center bg-white border border-gray-300 text-xs font-semibold py-2 rounded shadow-sm hover:bg-gray-50">View Image</a>
-                                        <button onclick="openModal('${item.id}')" class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>
+                                        ${item.status !== 'shredded' && item.status !== 'forwarded' ? `<button onclick="openModal('${item.id}')" class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>` : ''}
                                     </div>
                                 </div>
                             `;
@@ -500,11 +496,7 @@
                     }
                 }
 
-                // Admin Portal Logic
-                if (hash === 'admin') {
-                    // Fetch the live action queue
-                    fetchAdminQueue();
-                }
+                if (hash === 'admin') { fetchAdminQueue(); }
 
                 pages.forEach(page => {
                     page.classList.remove('active-page');
