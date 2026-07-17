@@ -12,7 +12,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        tailwind.config = { theme: { extend: { colors: { beige: '#F9F6F0', onyx: '#1A1A1A', burgundy: '#800020', gold: '#D4AF37' }, fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['Montserrat', 'sans-serif'] } } } }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { beige: '#F9F6F0', onyx: '#1A1A1A', burgundy: '#800020', gold: '#D4AF37' },
+                    fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['Montserrat', 'sans-serif'] }
+                }
+            }
+        }
     </script>
     <style>
         body { background-color: #F9F6F0; color: #1A1A1A; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
@@ -34,19 +41,29 @@
 
     <nav class="fixed w-full z-50 glass-header border-b border-burgundy/20 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
-            <a href="#home" class="gp-logo hover:opacity-80 transition cursor-pointer"><span class="gp-initials">GP</span><span class="gp-name">GreenwayPost</span></a>
+            <a href="#home" class="gp-logo hover:opacity-80 transition cursor-pointer">
+                <span class="gp-initials">GP</span>
+                <span class="gp-name">GreenwayPost</span>
+            </a>
+            
             <div class="hidden md:flex space-x-8 text-sm font-medium">
                 <a href="#home" class="nav-link hover:text-burgundy transition">Home</a>
                 <a href="#how-it-works" class="nav-link hover:text-burgundy transition">How It Works</a>
                 <a href="#pricing" class="nav-link hover:text-burgundy transition">Pricing</a>
             </div>
             <a href="#login" class="hidden md:inline-block bg-burgundy text-white px-6 py-2 rounded-full text-sm hover:bg-onyx transition duration-300 shadow-lg">Client Login</a>
+            
+            <div class="md:hidden space-y-1.5 cursor-pointer">
+                <div class="w-6 h-0.5 bg-onyx"></div>
+                <div class="w-6 h-0.5 bg-onyx"></div>
+                <div class="w-4 h-0.5 bg-onyx"></div>
+            </div>
         </div>
     </nav>
 
     <main class="pt-20 relative">
         
-        <!-- PAGE 1: HOME -->
+        <!-- PAGE 1: HOME (RESTORED) -->
         <section id="view-home" class="page-view active-page">
             <div class="relative bg-white overflow-hidden border-b border-gray-200">
                 <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
@@ -55,6 +72,7 @@
                         <p class="text-lg text-gray-600 font-light mb-8 leading-relaxed">Stop using your home address. Establish a premier corporate presence with a real, prestigious commercial street address in Houston. Manage your mail securely from any device, anywhere in the world.</p>
                         <div class="flex flex-col sm:flex-row gap-4">
                             <a href="#pricing" class="text-center bg-burgundy text-white font-medium px-8 py-4 rounded-full shadow-lg hover:bg-onyx transition-all duration-300">View Plans & Pricing</a>
+                            <a href="#how-it-works" class="text-center bg-white border border-gray-300 text-onyx font-medium px-8 py-4 rounded-full hover:bg-gray-50 transition-all duration-300">See How It Works</a>
                         </div>
                     </div>
                     <div class="md:w-1/2 w-full h-[400px] md:h-[650px] relative reveal">
@@ -62,31 +80,222 @@
                     </div>
                 </div>
             </div>
+
+            <div class="py-24 px-6 bg-beige">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-16 reveal">
+                        <h2 class="font-serif text-4xl font-semibold mb-4">Why Choose GreenwayPost?</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">More than just a P.O. Box. We provide a complete digital mail infrastructure designed for modern Texas professionals.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-10">
+                        <div class="bg-white p-8 rounded-3xl shadow-sm reveal">
+                            <div class="w-14 h-14 bg-beige text-burgundy rounded-full flex items-center justify-center mb-6 text-2xl font-bold">1</div>
+                            <h3 class="font-serif text-2xl font-semibold mb-3">Privacy & Protection</h3>
+                            <p class="text-gray-600 font-light text-sm">Keep your personal home address off public records, state registries, and away from clients. Protect your family's privacy while maintaining a professional front.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl shadow-sm reveal">
+                            <div class="w-14 h-14 bg-beige text-burgundy rounded-full flex items-center justify-center mb-6 text-2xl font-bold">2</div>
+                            <h3 class="font-serif text-2xl font-semibold mb-3">Real Street Address</h3>
+                            <p class="text-gray-600 font-light text-sm">Use 13009 Greenway Chase Ct, Ste [Your Number], Houston, TX as your official business address for banks, the IRS, and Google My Business.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl shadow-sm reveal">
+                            <div class="w-14 h-14 bg-beige text-burgundy rounded-full flex items-center justify-center mb-6 text-2xl font-bold">3</div>
+                            <h3 class="font-serif text-2xl font-semibold mb-3">Total Convenience</h3>
+                            <p class="text-gray-600 font-light text-sm">Never drive to the post office again. View incoming mail on your phone. Request scans, forward packages, or shred documents with a single tap.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="py-24 px-6 bg-white border-t border-gray-100 flex-1">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row-reverse items-center gap-16">
+                    <div class="md:w-1/2 reveal">
+                        <h2 class="font-serif text-4xl font-semibold mb-6">Designed for the Modern Entrepreneur</h2>
+                        <ul class="space-y-6">
+                            <li class="flex items-start">
+                                <span class="text-gold text-xl mr-4 mt-1">✔</span>
+                                <div>
+                                    <strong class="block text-onyx mb-1">Texas LLCs & Startups</strong>
+                                    <span class="text-gray-600 text-sm font-light">Meet state requirements for a physical commercial address to register your business legally.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gold text-xl mr-4 mt-1">✔</span>
+                                <div>
+                                    <strong class="block text-onyx mb-1">Digital Nomads & Expats</strong>
+                                    <span class="text-gray-600 text-sm font-light">Travel the world without missing important correspondence. We forward packages globally.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gold text-xl mr-4 mt-1">✔</span>
+                                <div>
+                                    <strong class="block text-onyx mb-1">Freelancers & Consultants</strong>
+                                    <span class="text-gray-600 text-sm font-light">Project a higher level of trust and authority to your clients with a premium office location.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 reveal">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Entrepreneur working on laptop" class="rounded-3xl shadow-xl w-full">
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- PAGE 2: HOW IT WORKS (Collapsed for brevity) -->
-        <section id="view-how-it-works" class="page-view bg-beige"><div class="bg-onyx text-white py-20 px-6 text-center"><h1 class="font-serif text-5xl font-semibold mb-6">The White-Glove Mail Experience</h1></div></section>
+        <!-- PAGE 2: HOW IT WORKS (RESTORED FULLY) -->
+        <section id="view-how-it-works" class="page-view bg-beige">
+            <div class="bg-onyx text-white py-20 px-6 text-center">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h1 class="font-serif text-5xl font-semibold mb-6">The White-Glove Mail Experience</h1>
+                    <p class="text-gray-300 text-lg font-light leading-relaxed">Managing your business correspondence should feel effortless. See exactly how our secure Houston facility receives, processes, and digitizes your mail.</p>
+                </div>
+            </div>
+            
+            <div class="py-20 px-6">
+                <div class="max-w-6xl mx-auto space-y-24">
+                    <div class="flex flex-col md:flex-row items-center gap-12 reveal">
+                        <div class="md:w-1/2">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Signing up online" class="rounded-2xl shadow-lg border-4 border-white">
+                        </div>
+                        <div class="md:w-1/2">
+                            <span class="text-burgundy font-bold tracking-widest uppercase text-sm mb-2 block">Step 1</span>
+                            <h2 class="font-serif text-4xl font-semibold mb-4">Secure Your Suite Number</h2>
+                            <p class="text-gray-600 mb-6 font-light leading-relaxed">Select a plan and instantly receive your unique suite number at <strong>13009 Greenway Chase Ct</strong>. You will complete a simple, secure onboarding process to notarize USPS Form 1583 (required by federal law), granting us permission to legally handle your mail.</p>
+                            <a href="#pricing" class="text-burgundy font-medium hover:text-gold transition border-b border-burgundy pb-1">View Pricing Plans &rarr;</a>
+                        </div>
+                    </div>
 
-        <!-- PAGE 3: PRICING -->
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-12 reveal">
+                        <div class="md:w-1/2">
+                            <img src="https://images.unsplash.com/photo-1586769852044-692d6e3703f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Receiving mail" class="rounded-2xl shadow-lg border-4 border-white">
+                        </div>
+                        <div class="md:w-1/2">
+                            <span class="text-burgundy font-bold tracking-widest uppercase text-sm mb-2 block">Step 2</span>
+                            <h2 class="font-serif text-4xl font-semibold mb-4">We Receive & Digitize</h2>
+                            <p class="text-gray-600 mb-6 font-light leading-relaxed">When mail or packages arrive from USPS, FedEx, UPS, or DHL, our local Houston staff logs the item. We securely photograph the exterior of the envelope or box and immediately send a discreet notification to your smartphone or email.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center gap-12 reveal">
+                        <div class="md:w-1/2">
+                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mobile phone dashboard" class="rounded-2xl shadow-lg border-4 border-white">
+                        </div>
+                        <div class="md:w-1/2">
+                            <span class="text-burgundy font-bold tracking-widest uppercase text-sm mb-2 block">Step 3</span>
+                            <h2 class="font-serif text-4xl font-semibold mb-4">You Take Command</h2>
+                            <p class="text-gray-600 mb-4 font-light leading-relaxed">Log into your secure digital dashboard to view your new mail. With a single tap, you can instruct us to:</p>
+                            <ul class="space-y-3 text-sm text-gray-700">
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">📄</span> <strong>Open & Scan:</strong> We scan the interior documents as a PDF.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">📦</span> <strong>Forward:</strong> Ship the physical item anywhere in the world.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">♻️</span> <strong>Shred & Recycle:</strong> Securely destroy unwanted mail.</li>
+                                <li class="flex items-center bg-white py-2 px-4 rounded shadow-sm border border-gray-100"><span class="text-burgundy mr-3 text-lg">🏦</span> <strong>Deposit Checks:</strong> We mail your checks directly to your bank.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: PRICING (RESTORED FULLY & STRIPE READY) -->
         <section id="view-pricing" class="page-view bg-white">
             <div class="py-20 px-6">
-                <div class="max-w-7xl mx-auto reveal mt-8 text-center">
-                    <h1 class="font-serif text-4xl font-semibold mb-16">Choose Your Plan</h1>
+                <div class="max-w-7xl mx-auto reveal mt-8">
+                    <div class="text-center mb-16">
+                        <h1 class="font-serif text-4xl md:text-5xl font-semibold mb-4">Uncompromising Service. Unmatched Value.</h1>
+                        <p class="text-gray-600 text-lg font-light max-w-2xl mx-auto">Premium Texas addresses with transparent pricing. Compare our rates to the national average and see why Houston businesses choose GreenwayPost.</p>
+                    </div>
+                    
                     <div class="grid lg:grid-cols-3 gap-8 items-start mb-24">
                         <div class="bg-beige rounded-3xl p-8 shadow-sm card-hover border border-gray-200">
                             <h3 class="font-serif text-2xl font-semibold mb-2">The Essential</h3>
+                            <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Perfect for travelers, digital nomads, and privacy-focused individuals.</p>
                             <div class="text-4xl font-semibold text-onyx mb-8">$6.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
-                            <a href="#register" class="block text-center w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Essential</a>
+                            <ul class="space-y-4 mb-8 text-sm text-gray-700">
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Suite at 13009 Greenway Chase Ct</li>
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 30 Mail Items per Month</li>
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Real-Time Digital Viewing</li>
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Secure Document Shredding</li>
+                            </ul>
+                            <!-- STRIPE LINK HANDLER ADDED HERE -->
+                            <a href="#register" onclick="localStorage.setItem('selectedPlan', 'essential')" class="block text-center w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Essential</a>
                         </div>
-                        <div class="bg-onyx text-white rounded-3xl p-8 shadow-2xl card-hover border-2 border-gold transform lg:-translate-y-6">
+
+                        <div class="bg-onyx text-white rounded-3xl p-8 shadow-2xl card-hover border-2 border-gold relative transform lg:-translate-y-6">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gold text-onyx text-xs font-bold uppercase tracking-wider py-1.5 px-6 rounded-full shadow-md">Most Popular</div>
                             <h3 class="font-serif text-2xl font-semibold mb-2">The Executive</h3>
+                            <p class="text-gray-400 text-sm mb-6 min-h-[40px]">The standard for Texas LLCs, startups, and remote founders.</p>
                             <div class="text-4xl font-semibold text-white mb-8">$10.49<span class="text-sm text-gray-400 font-normal"> /mo</span></div>
-                            <a href="#register" class="block text-center w-full py-3 rounded-full bg-gold text-onyx font-bold hover:bg-white transition duration-300 shadow-md">Choose Executive</a>
+                            <ul class="space-y-4 mb-8 text-sm text-gray-300">
+                                <li class="flex items-center"><span class="text-gold mr-3">✔</span> Everything in Essential</li>
+                                <li class="flex items-center"><span class="text-gold mr-3">✔</span> 60 Mail Items per Month</li>
+                                <li class="flex items-center"><span class="text-gold mr-3">✔</span> Official Company Name Support</li>
+                                <li class="flex items-center"><span class="text-gold mr-3">✔</span> Registered Agent Capable</li>
+                                <li class="flex items-center"><span class="text-gold mr-3">✔</span> Priority Mail Forwarding</li>
+                            </ul>
+                            <!-- STRIPE LINK HANDLER ADDED HERE -->
+                            <a href="#register" onclick="localStorage.setItem('selectedPlan', 'executive')" class="block text-center w-full py-3 rounded-full bg-gold text-onyx font-bold hover:bg-white transition duration-300 shadow-md">Choose Executive</a>
                         </div>
+
                         <div class="bg-beige rounded-3xl p-8 shadow-sm card-hover border border-gray-200">
                             <h3 class="font-serif text-2xl font-semibold mb-2">The Corporate</h3>
+                            <p class="text-gray-500 text-sm mb-6 min-h-[40px]">Designed for high-volume agencies and established firms.</p>
                             <div class="text-4xl font-semibold text-onyx mb-8">$27.99<span class="text-sm text-gray-500 font-normal"> /mo</span></div>
-                            <a href="#register" class="block text-center w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Corporate</a>
+                            <ul class="space-y-4 mb-8 text-sm text-gray-700">
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Everything in Executive</li>
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> 240 Mail Items per Month</li>
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Direct Check Deposit Services</li>
+                                <li class="flex items-center"><span class="text-burgundy mr-3">✔</span> Phone & Fax Routing</li>
+                            </ul>
+                            <!-- STRIPE LINK HANDLER ADDED HERE -->
+                            <a href="#register" onclick="localStorage.setItem('selectedPlan', 'corporate')" class="block text-center w-full py-3 rounded-full border border-burgundy text-burgundy font-medium hover:bg-burgundy hover:text-white transition duration-300">Choose Corporate</a>
+                        </div>
+                    </div>
+
+                    <div class="reveal mt-16">
+                        <h2 class="font-serif text-3xl font-semibold text-center mb-10">Compare Full Plan Features</h2>
+                        <div class="overflow-x-auto bg-white border border-gray-200 rounded-2xl shadow-sm">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-50 border-b border-gray-200">
+                                        <th class="py-4 px-6 font-semibold text-gray-700">Feature</th>
+                                        <th class="py-4 px-6 font-semibold text-center text-gray-700 border-l border-gray-200">Essential</th>
+                                        <th class="py-4 px-6 font-semibold text-center text-burgundy border-l border-gray-200 bg-red-50">Executive</th>
+                                        <th class="py-4 px-6 font-semibold text-center text-gray-700 border-l border-gray-200">Corporate</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm">
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                        <td class="py-4 px-6 text-gray-600">Physical Houston Address</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Yes</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200 bg-red-50/30">Yes</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Yes</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                        <td class="py-4 px-6 text-gray-600">Included Monthly Mail Items</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">30 Items</td>
+                                        <td class="py-4 px-6 text-center text-burgundy font-bold border-l border-gray-200 bg-red-50/30">60 Items</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">240 Items</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                        <td class="py-4 px-6 text-gray-600">Recipient Names Allowed</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">1 Name</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200 bg-red-50/30">4 Names / Business</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Unlimited</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                        <td class="py-4 px-6 text-gray-600">Registered Agent Service</td>
+                                        <td class="py-4 px-6 text-center text-gray-400 border-l border-gray-200">-</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200 bg-red-50/30">Included</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Included</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                        <td class="py-4 px-6 text-gray-600">Check Deposit Service</td>
+                                        <td class="py-4 px-6 text-center text-gray-400 border-l border-gray-200">Pay Per Use</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200 bg-red-50/30">Pay Per Use</td>
+                                        <td class="py-4 px-6 text-center text-gray-800 font-medium border-l border-gray-200">Free Processing</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -96,11 +305,15 @@
         <!-- PAGE 4: LOGIN -->
         <section id="view-login" class="page-view py-24 px-6 bg-white items-center justify-center">
             <div class="max-w-md w-full bg-white border border-gray-200 p-8 rounded-3xl shadow-2xl text-center reveal">
-                <h2 class="font-serif text-3xl font-semibold mb-6">Client Portal</h2>
+                <div class="gp-logo mb-6">
+                    <span class="gp-initials text-4xl">GP</span>
+                </div>
+                <h2 class="font-serif text-3xl font-semibold mb-2">Client Portal</h2>
+                <p class="text-gray-500 mb-8 text-sm">Log in to manage your digital mailbox, request scans, and forward packages.</p>
                 <form id="login-form" class="space-y-4">
-                    <input type="email" id="email-input" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
-                    <input type="password" id="password-input" placeholder="Password" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
-                    <button type="submit" id="login-btn" class="w-full py-4 bg-burgundy text-white rounded-xl font-bold hover:bg-onyx transition shadow-md">SIGN IN</button>
+                    <input type="email" id="email-input" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
+                    <input type="password" id="password-input" placeholder="Password" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition">
+                    <button type="submit" id="login-btn" class="w-full py-4 bg-burgundy text-white rounded-xl font-bold tracking-wide hover:bg-onyx transition shadow-md">SIGN IN</button>
                     <p id="login-error" class="text-red-500 text-sm mt-2 hidden"></p>
                  </form>
             </div>
@@ -109,7 +322,11 @@
         <!-- PAGE 4.5: REGISTER -->
         <section id="view-register" class="page-view py-24 px-6 bg-white items-center justify-center">
             <div class="max-w-md w-full bg-white border border-gray-200 p-8 rounded-3xl shadow-2xl text-center reveal">
-                <h2 class="font-serif text-3xl font-semibold mb-6">Secure Your Suite</h2>
+                <div class="gp-logo mb-6">
+                    <span class="gp-initials text-4xl">GP</span>
+                </div>
+                <h2 class="font-serif text-3xl font-semibold mb-2">Secure Your Suite</h2>
+                <p class="text-gray-500 mb-8 text-sm">Create your account to get your official Houston address instantly.</p>
                 <form id="register-form" class="space-y-4">
                     <div class="flex gap-4">
                         <input type="text" id="reg-first-name" placeholder="First Name" required class="w-1/2 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
@@ -117,7 +334,7 @@
                     </div>
                     <input type="email" id="reg-email" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
                     <input type="password" id="reg-password" placeholder="Create Password" required minlength="6" class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
-                    <button type="submit" id="register-btn" class="w-full py-4 bg-gold text-onyx rounded-xl font-bold hover:bg-white border-2 border-transparent hover:border-gold transition shadow-md">CREATE ACCOUNT</button>
+                    <button type="submit" id="register-btn" class="w-full py-4 bg-gold text-onyx rounded-xl font-bold hover:bg-white border-2 border-transparent hover:border-gold transition shadow-md">CREATE ACCOUNT & PAY</button>
                     <p id="register-error" class="text-red-500 text-sm mt-2 hidden"></p>
                  </form>
             </div>
@@ -134,7 +351,7 @@
                     <button id="logout-btn" class="px-8 py-2 border border-burgundy text-burgundy rounded-full hover:bg-burgundy hover:text-white transition">Secure Log Out</button>
                 </div>
 
-                <!-- NEW: COMPLIANCE BANNER -->
+                <!-- COMPLIANCE BANNER -->
                 <div id="compliance-banner" class="bg-red-50 border-l-4 border-burgundy p-8 rounded-r-xl shadow-sm mb-10 reveal">
                     <h2 class="font-serif text-2xl font-semibold text-burgundy mb-2">Action Required: Complete USPS Form 1583</h2>
                     <p class="text-gray-700 text-sm mb-6">Federal law requires us to verify your identity before we can legally open, scan, or forward your mail. <a href="https://about.usps.com/forms/ps1583.pdf" target="_blank" class="text-burgundy font-bold hover:underline">Download the blank USPS Form 1583 here.</a></p>
@@ -149,7 +366,7 @@
                             <p id="upload-feedback" class="text-xs font-semibold mt-2 hidden text-center"></p>
                         </div>
                         
-                        <!-- Option 2: Video Notary (Upsell) -->
+                        <!-- Option 2: Video Notary -->
                         <div class="bg-beige p-6 rounded-xl border-2 border-gold relative shadow-sm">
                             <div class="absolute -top-3 -right-2 bg-gold text-onyx text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow">Recommended</div>
                             <h3 class="font-bold text-onyx mb-1 text-lg">Option 2: Online Video Notary</h3>
@@ -175,18 +392,265 @@
             </div>
         </section>
 
-        <!-- ADMIN/MODAL/ETC hidden for brevity, JS handles logic below -->
+        <!-- PAGE 6: ADMIN MAILROOM PORTAL (Hidden Route) -->
+        <section id="view-admin" class="page-view py-24 px-6 bg-white min-h-screen">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-10 border-b border-gray-200 pb-6 reveal">
+                    <h1 class="font-serif text-4xl font-semibold text-burgundy mb-2">Mailroom Command Center</h1>
+                    <p class="text-gray-600 font-medium">Internal Portal — Houston Facility Staff Only</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
+                    <!-- LEFT COL: Log Incoming Mail -->
+                    <div class="bg-beige p-8 rounded-3xl shadow-sm border border-gray-200">
+                        <h2 class="font-serif text-2xl font-semibold mb-6 text-onyx">Log Incoming Mail</h2>
+                        <form id="admin-log-form" class="space-y-4">
+                            <div class="flex gap-4">
+                                <input type="number" id="admin-suite" placeholder="Suite ID (e.g. 2)" required class="w-1/3 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
+                                <input type="text" id="admin-profile" placeholder="Client Profile ID (UUID)" required class="w-2/3 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
+                            </div>
+                            <input type="text" id="admin-sender" placeholder="Sender (e.g., Internal Revenue Service)" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
+                            <select id="admin-type" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy bg-white">
+                                <option value="" disabled selected>Select Mail Type</option>
+                                <option value="letter">Letter</option>
+                                <option value="package">Package</option>
+                                <option value="magazine">Magazine</option>
+                                <option value="check">Check</option>
+                            </select>
+                            <input type="url" id="admin-image" placeholder="Cover Image URL (https://...)" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-burgundy">
+                            <button type="submit" id="admin-submit-btn" class="w-full py-4 bg-onyx text-white rounded-xl font-bold tracking-wide hover:bg-burgundy transition shadow-md mt-2">PROCESS NEW MAIL</button>
+                            <p id="admin-log-feedback" class="text-sm font-semibold mt-2 hidden text-center"></p>
+                        </form>
+                    </div>
+                    
+                    <!-- RIGHT COL: Action Queue -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-200">
+                        <h2 class="font-serif text-2xl font-semibold mb-6 flex justify-between items-center text-onyx">
+                            Client Action Queue
+                            <button onclick="fetchAdminQueue()" class="text-sm bg-gray-100 px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-200 transition">↻ Refresh</button>
+                        </h2>
+                        <div id="admin-queue-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                            <p class="text-gray-500 text-center py-10">Loading client requests...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 7: 404 NOT FOUND -->
+        <section id="view-404" class="page-view py-32 px-6 bg-white items-center justify-center">
+            <div class="max-w-lg mx-auto text-center reveal">
+                <div class="text-burgundy font-serif text-9xl font-bold mb-4 opacity-20">404</div>
+                <h2 class="font-serif text-4xl font-semibold mb-4 text-onyx">Suite Not Found</h2>
+                <a href="#home" class="inline-block px-8 py-4 bg-burgundy text-white rounded-full font-medium hover:bg-onyx transition shadow-md">Return to Homepage</a>
+            </div>
+        </section>
+
+        <!-- ACTION MODAL -->
+        <div id="action-modal" class="fixed inset-0 bg-onyx/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+            <div class="bg-white max-w-md w-full mx-4 rounded-3xl p-8 shadow-2xl transform scale-95 transition-transform duration-300" id="action-modal-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-serif text-2xl font-semibold">Mail Action</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-burgundy text-2xl">&times;</button>
+                </div>
+                <input type="hidden" id="modal-mail-id">
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="submitAction('scan')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-burgundy transition group"><span class="text-2xl mb-2 group-hover:scale-110">📄</span><span class="text-sm font-semibold">Scan Interior</span></button>
+                    <button onclick="submitAction('forward')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-burgundy transition group"><span class="text-2xl mb-2 group-hover:scale-110">📦</span><span class="text-sm font-semibold">Forward</span></button>
+                    <button onclick="submitAction('shred')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-red-500 transition group"><span class="text-2xl mb-2 group-hover:scale-110">♻️</span><span class="text-sm font-semibold">Shred</span></button>
+                    <button onclick="submitAction('deposit')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-burgundy transition group"><span class="text-2xl mb-2 group-hover:scale-110">🏦</span><span class="text-sm font-semibold">Deposit</span></button>
+                </div>
+                <p id="action-feedback" class="text-green-600 text-sm font-semibold mt-6 text-center hidden">Request sent successfully!</p>
+            </div>
+        </div>
 
     </main>
 
+    <!-- FOOTER (RESTORED FULLY) -->
+    <footer class="bg-onyx text-white border-t-[6px] border-burgundy pt-16 pb-8 px-6 text-sm">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div>
+                <div class="gp-logo items-start mb-6">
+                    <span class="gp-initials text-white">GP</span>
+                    <span class="gp-name">GreenwayPost</span>
+                </div>
+                <p class="text-gray-400 font-light mb-4">Your premium Texas virtual address, providing secure mail management for modern professionals.</p>
+                <p class="text-gray-300 mb-1"><strong class="text-white">Facility:</strong></p>
+                <p class="text-gray-400 font-light mb-4">13009 Greenway Chase Ct<br>Houston, TX 77072</p>
+                <p class="text-gray-300 mb-1"><strong class="text-white">Support:</strong> support@greenwaypost.com</p>
+            </div>
+
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-gold">Our Services</h4>
+                <ul class="space-y-3 text-gray-400 font-light">
+                    <li><a href="#pricing" class="hover:text-gold transition">Personal Virtual Mailbox</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Business Virtual Address</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Virtual Office Solutions</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Mail Forwarding</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Check Deposit Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-gold">Company</h4>
+                <ul class="space-y-3 text-gray-400 font-light">
+                    <li><a href="#home" class="hover:text-gold transition">About Us</a></li>
+                    <li><a href="#how-it-works" class="hover:text-gold transition">How It Works</a></li>
+                    <li><a href="#pricing" class="hover:text-gold transition">Pricing & Plans</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Help Center & FAQs</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-gold">Legal & Compliance</h4>
+                <ul class="space-y-3 text-gray-400 font-light">
+                    <li><a href="#" class="hover:text-gold transition">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Privacy Policy & CCPA</a></li>
+                    <li><a href="#" class="hover:text-gold transition">USPS Form 1583 Guidelines</a></li>
+                    <li><a href="#" class="hover:text-gold transition">AML/KYC Identity Verification</a></li>
+                    <li><a href="#" class="hover:text-gold transition">Prohibited Items Policy</a></li>
+                </ul>
+                <div class="mt-6 flex gap-3">
+                    <div class="px-3 py-1 bg-white/10 rounded border border-white/20 text-[10px] tracking-wider uppercase text-center flex items-center justify-center">USPS<br>Certified</div>
+                    <div class="px-3 py-1 bg-white/10 rounded border border-white/20 text-[10px] tracking-wider uppercase text-center flex items-center justify-center">256-Bit<br>Secure</div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
+            <p>&copy; 2026 GreenwayPost LLC. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">Twitter</a>
+                <a href="#" class="hover:text-white transition">LinkedIn</a>
+                <a href="#" class="hover:text-white transition">Facebook</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- COOKIE BANNER (RESTORED FULLY) -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-onyx text-white z-[9999] transform translate-y-full transition-transform duration-400 shadow-[0_-4px_20px_rgba(0,0,0,0.2)] py-4 px-6 border-t-[3px] border-gold">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-light">
+            <div class="flex-1">
+                <strong class="font-medium text-white block mb-1">Your Privacy Matters</strong>
+                <span class="text-gray-300">We use cookies to ensure the proper functioning of our digital mailbox platform. By clicking "Accept All", you consent to our use of non-essential cookies. Read our <a href="#" class="text-gold underline hover:text-white">Privacy Policy</a> to manage your preferences.</span>
+            </div>
+            <div class="flex flex-shrink-0 gap-3 w-full md:w-auto">
+                <button onclick="acceptCookies()" class="flex-1 md:flex-none px-6 py-2.5 bg-gold text-onyx font-medium rounded-lg hover:bg-white transition">Accept All</button>
+                <button onclick="rejectCookies()" class="flex-1 md:flex-none px-6 py-2.5 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition">Decline Optional</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT ENGINE -->
     <script>
         const supabaseUrl = 'https://ksdspvsodyegdlbkzmrw.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzZHNwdnNvZHllZ2RsYmt6bXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMzEzNTIsImV4cCI6MjA5OTgwNzM1Mn0.ivv6TZo1msXQkDmjQlXFHoIAhgGyR6xu6-_o5K4Dplw';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+        // Cookies
+        function acceptCookies() { localStorage.setItem('greenwaypost_cookie_consent', 'accepted'); document.getElementById('cookie-banner').classList.remove('translate-y-0'); document.getElementById('cookie-banner').classList.add('translate-y-full'); }
+        function rejectCookies() { localStorage.setItem('greenwaypost_cookie_consent', 'rejected'); document.getElementById('cookie-banner').classList.remove('translate-y-0'); document.getElementById('cookie-banner').classList.add('translate-y-full'); }
+
+        // Modal Action Logic
+        function openModal(mailId) {
+            document.getElementById('modal-mail-id').value = mailId;
+            const modal = document.getElementById('action-modal');
+            const content = document.getElementById('action-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); content.classList.remove('scale-95'); }, 10);
+            document.getElementById('action-feedback').classList.add('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('action-modal');
+            const content = document.getElementById('action-modal-content');
+            modal.classList.add('opacity-0'); content.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        async function submitAction(requestType) {
+            const mailId = document.getElementById('modal-mail-id').value;
+            const feedback = document.getElementById('action-feedback');
+            const { data: { session } } = await _supabase.auth.getSession();
+            if(!session) return;
+
+            feedback.innerText = "Processing request...";
+            feedback.classList.remove('hidden');
+            feedback.className = "text-gray-500 text-sm font-semibold mt-6 text-center";
+
+            const { error } = await _supabase.from('mail_requests').insert({
+                mail_item_id: mailId, profile_id: session.user.id, request_type: requestType
+            });
+
+            if (error) {
+                feedback.innerText = "Error: " + error.message;
+                feedback.className = "text-red-500 text-sm font-semibold mt-6 text-center";
+            } else {
+                feedback.innerText = "Request sent to Houston facility!";
+                feedback.className = "text-green-600 text-sm font-semibold mt-6 text-center";
+                await _supabase.from('mail_items').update({status: 'Processing ' + requestType}).eq('id', mailId);
+                setTimeout(() => { closeModal(); window.dispatchEvent(new Event('hashchange')); }, 1500);
+            }
+        }
+
+        // Admin Queue Logic
+        async function fetchAdminQueue() {
+            const queueContainer = document.getElementById('admin-queue-container');
+            if(!queueContainer) return;
+            queueContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Refreshing queue...</p>';
+            
+            const { data, error } = await _supabase.from('mail_requests').select(`id, request_type, status, created_at, mail_item_id, mail_items (sender, mail_type)`).order('created_at', { ascending: false });
+
+            if (error || !data || data.length === 0) {
+                queueContainer.innerHTML = '<p class="text-gray-500 text-center py-4 border-2 border-dashed border-gray-200 rounded-xl">Queue is empty. No pending tasks!</p>';
+                return;
+            }
+            queueContainer.innerHTML = '';
+            data.forEach(req => {
+                const date = new Date(req.created_at).toLocaleDateString() + ' ' + new Date(req.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const icon = req.request_type === 'scan' ? '📄' : req.request_type === 'forward' ? '📦' : req.request_type === 'shred' ? '♻️' : '🏦';
+                
+                let actionHTML = '';
+                if (req.status !== 'Completed') {
+                    actionHTML = `<button onclick="markRequestComplete('${req.id}', '${req.mail_item_id}', '${req.request_type}')" class="bg-white border border-gray-300 text-xs font-semibold py-2 px-4 rounded shadow-sm hover:bg-green-500 hover:text-white hover:border-green-500 transition">Mark Complete</button>`;
+                } else {
+                    actionHTML = `<span class="text-green-600 font-bold text-xs uppercase tracking-wider">✔ Done</span>`;
+                }
+
+                queueContainer.innerHTML += `
+                    <div class="border-l-4 border-burgundy bg-gray-50 p-4 rounded-r-xl flex justify-between items-center shadow-sm mb-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-lg">${icon}</span>
+                                <span class="font-bold uppercase tracking-wide text-xs text-onyx">${req.request_type} Request</span>
+                                <span class="${req.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-200 text-yellow-800'} text-[10px] font-bold px-2 py-0.5 rounded uppercase">${req.status}</span>
+                            </div>
+                            <p class="text-sm font-medium text-gray-800">Target: ${req.mail_items?.sender} (${req.mail_items?.mail_type})</p>
+                            <p class="text-xs text-gray-500 mt-1">${date}</p>
+                        </div>
+                        ${actionHTML}
+                    </div>
+                `;
+            });
+        }
+
+        async function markRequestComplete(requestId, mailItemId, requestType) {
+            const statusMap = { 'scan': 'scanned', 'forward': 'forwarded', 'shred': 'shredded', 'deposit': 'deposited' };
+            const finalStatus = statusMap[requestType] || 'processed';
+            await _supabase.from('mail_requests').update({ status: 'Completed' }).eq('id', requestId);
+            await _supabase.from('mail_items').update({ status: finalStatus }).eq('id', mailItemId);
+            fetchAdminQueue();
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             
-            // Handle Login
+            // Cookie Banner Init
+            const banner = document.getElementById('cookie-banner');
+            if (!localStorage.getItem('greenwaypost_cookie_consent')) {
+                setTimeout(() => { if (banner) { banner.classList.remove('translate-y-full'); banner.classList.add('translate-y-0'); } }, 1000);
+            }
+
+            // Authentication Forms
             const loginForm = document.getElementById('login-form');
             if (loginForm) {
                 loginForm.addEventListener('submit', async (e) => {
@@ -198,7 +662,49 @@
                 });
             }
 
-            // Handle Document Upload (Option 1)
+            // Registration + Stripe Routing Logic
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); 
+                    const firstName = document.getElementById('reg-first-name').value;
+                    const lastName = document.getElementById('reg-last-name').value;
+                    const email = document.getElementById('reg-email').value;
+                    const password = document.getElementById('reg-password').value;
+                    const btn = document.getElementById('register-btn');
+                    
+                    btn.innerHTML = "Creating Account...";
+
+                    const { data, error } = await _supabase.auth.signUp({
+                        email, password, options: { data: { first_name: firstName, last_name: lastName } }
+                    });
+
+                    if (error) { 
+                        btn.innerHTML = "CREATE ACCOUNT & PAY"; 
+                        alert(error.message); 
+                        return;
+                    }
+
+                    btn.innerHTML = "Redirecting to Secure Checkout...";
+
+                    const chosenPlan = localStorage.getItem('selectedPlan') || 'executive';
+                    
+                    // REPLACE THESE WITH YOUR ACTUAL STRIPE PAYMENT LINKS
+                    const stripeLinks = {
+                        'essential': 'https://buy.stripe.com/test_YOUR_ESSENTIAL_LINK',
+                        'executive': 'https://buy.stripe.com/test_YOUR_EXECUTIVE_LINK',
+                        'corporate': 'https://buy.stripe.com/test_YOUR_CORPORATE_LINK'
+                    };
+
+                    const targetStripeUrl = stripeLinks[chosenPlan];
+                    const finalCheckoutUrl = `${targetStripeUrl}?prefilled_email=${encodeURIComponent(email)}&client_reference_id=${data.user.id}`;
+                    
+                    // Route user to Stripe
+                    window.location.href = finalCheckoutUrl;
+                });
+            }
+
+            // Form 1583 Upload Logic
             const uploadBtn = document.getElementById('upload-compliance-btn');
             if (uploadBtn) {
                 uploadBtn.addEventListener('click', async () => {
@@ -223,10 +729,7 @@
                         const fileExt = file.name.split('.').pop();
                         const fileName = `${session.user.id}/${Math.random()}.${fileExt}`;
                         
-                        const { error } = await _supabase.storage
-                            .from('compliance_docs')
-                            .upload(fileName, file);
-                            
+                        const { error } = await _supabase.storage.from('compliance_docs').upload(fileName, file);
                         if (!error) successCount++;
                     }
 
@@ -242,7 +745,7 @@
                 });
             }
 
-            // Handle Video Notary (Option 2)
+            // Video Notary Logic
             const videoNotaryBtn = document.getElementById('video-notary-btn');
             if(videoNotaryBtn) {
                 videoNotaryBtn.addEventListener('click', () => {
@@ -250,8 +753,56 @@
                 });
             }
 
-            // Router Setup
+            // Logout Logic
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async () => {
+                    await _supabase.auth.signOut();
+                    window.location.hash = 'login';
+                });
+            }
+
+            // Admin Log Mail Logic
+            const adminLogForm = document.getElementById('admin-log-form');
+            if (adminLogForm) {
+                adminLogForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById('admin-submit-btn');
+                    const feedback = document.getElementById('admin-log-feedback');
+                    btn.innerHTML = "UPLOADING...";
+                    feedback.classList.add('hidden');
+
+                    const suite_id = document.getElementById('admin-suite').value;
+                    const profile_id = document.getElementById('admin-profile').value;
+                    const sender = document.getElementById('admin-sender').value;
+                    const mail_type = document.getElementById('admin-type').value;
+                    const image_url = document.getElementById('admin-image').value;
+
+                    const { error } = await _supabase.from('mail_items').insert({
+                        suite_id: parseInt(suite_id), profile_id: profile_id, sender: sender, mail_type: mail_type, image_url: image_url, status: 'received'
+                    });
+
+                    if (error) {
+                        feedback.innerText = "Database Error: " + error.message;
+                        feedback.className = "text-red-500 text-sm font-semibold mt-2 text-center";
+                        feedback.classList.remove('hidden');
+                        btn.innerHTML = "PROCESS NEW MAIL";
+                    } else {
+                        feedback.innerText = "Mail successfully delivered to client dashboard!";
+                        feedback.className = "text-green-600 text-sm font-semibold mt-2 text-center";
+                        feedback.classList.remove('hidden');
+                        btn.innerHTML = "SUCCESS";
+                        btn.classList.replace('bg-onyx', 'bg-green-600');
+                        setTimeout(() => {
+                            adminLogForm.reset(); btn.innerHTML = "PROCESS NEW MAIL"; btn.classList.replace('bg-green-600', 'bg-onyx'); feedback.classList.add('hidden');
+                        }, 2000);
+                    }
+                });
+            }
+
+            // Router Engine
             const pages = document.querySelectorAll('.page-view');
+            const navLinks = document.querySelectorAll('.nav-link');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("active"); });
             }, { threshold: 0.1 });
@@ -259,6 +810,15 @@
             async function handleRoute() {
                 let hash = window.location.hash.substring(1) || 'home';
                 
+                // Active Nav Styling
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === `#${hash}` || (hash === 'home' && link.getAttribute('href') === '#home')) {
+                        link.classList.add('text-burgundy', 'font-semibold');
+                    } else {
+                        link.classList.remove('text-burgundy', 'font-semibold');
+                    }
+                });
+
                 if (hash === 'dashboard') {
                     const { data: { session } } = await _supabase.auth.getSession();
                     if (!session) { window.location.hash = 'login'; return; }
@@ -290,11 +850,17 @@
                                     </div>
                                     <h3 class="font-bold text-onyx mb-1 truncate">From: ${item.sender}</h3>
                                     <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium ${item.status === 'scanned' || item.status === 'shredded' || item.status === 'forwarded' ? 'text-green-600' : ''}">${item.status}</span></p>
+                                    <div class="flex gap-2">
+                                        <a href="${item.image_url}" target="_blank" class="flex-1 text-center bg-white border border-gray-300 text-xs font-semibold py-2 rounded shadow-sm hover:bg-gray-50">View Image</a>
+                                        ${item.status !== 'shredded' && item.status !== 'forwarded' ? `<button onclick="openModal('${item.id}')" class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>` : ''}
+                                    </div>
                                 </div>
                             `;
                         });
                     }
                 }
+
+                if (hash === 'admin') { fetchAdminQueue(); }
 
                 pages.forEach(page => {
                     page.classList.remove('active-page');
@@ -302,7 +868,8 @@
                 });
                 
                 const targetPage = document.getElementById(`view-${hash}`);
-                if (targetPage) { targetPage.classList.add('active-page'); }
+                if (targetPage) { targetPage.classList.add('active-page'); } 
+                else { document.getElementById('view-404').classList.add('active-page'); }
                 
                 window.scrollTo(0, 0);
                 setTimeout(() => {
