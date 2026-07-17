@@ -144,7 +144,7 @@
         </div>
     </nav>
 
-    <main class="pt-20">
+    <main class="pt-20 relative">
         
         <!-- PAGE 1: HOME -->
         <section id="view-home" class="page-view active-page">
@@ -482,6 +482,39 @@
             </div>
         </section>
 
+        <!-- ACTION MODAL (Hidden by default) -->
+        <div id="action-modal" class="fixed inset-0 bg-onyx/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+            <div class="bg-white max-w-md w-full mx-4 rounded-3xl p-8 shadow-2xl transform scale-95 transition-transform duration-300" id="action-modal-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-serif text-2xl font-semibold">Mail Action</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-burgundy text-2xl">&times;</button>
+                </div>
+                <p class="text-gray-500 text-sm mb-6">Select how you want our Houston facility to handle this item.</p>
+                
+                <input type="hidden" id="modal-mail-id">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="submitAction('scan')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-burgundy transition group">
+                        <span class="text-2xl mb-2 group-hover:scale-110 transition">📄</span>
+                        <span class="text-sm font-semibold text-onyx">Scan Interior</span>
+                    </button>
+                    <button onclick="submitAction('forward')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-burgundy transition group">
+                        <span class="text-2xl mb-2 group-hover:scale-110 transition">📦</span>
+                        <span class="text-sm font-semibold text-onyx">Forward</span>
+                    </button>
+                    <button onclick="submitAction('shred')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-red-500 transition group">
+                        <span class="text-2xl mb-2 group-hover:scale-110 transition">♻️</span>
+                        <span class="text-sm font-semibold text-onyx">Shred</span>
+                    </button>
+                    <button onclick="submitAction('deposit')" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:bg-beige hover:border-burgundy transition group">
+                        <span class="text-2xl mb-2 group-hover:scale-110 transition">🏦</span>
+                        <span class="text-sm font-semibold text-onyx">Deposit</span>
+                    </button>
+                </div>
+                <p id="action-feedback" class="text-green-600 text-sm font-semibold mt-6 text-center hidden">Request sent successfully!</p>
+            </div>
+        </div>
+
     </main>
 
     <footer class="bg-onyx text-white border-t-[6px] border-burgundy pt-16 pb-8 px-6 text-sm">
@@ -563,6 +596,69 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzZHNwdnNvZHllZ2RsYmt6bXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMzEzNTIsImV4cCI6MjA5OTgwNzM1Mn0.ivv6TZo1msXQkDmjQlXFHoIAhgGyR6xu6-_o5K4Dplw';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
+        // --- NEW: Global Modal Functions ---
+        function openModal(mailId) {
+            document.getElementById('modal-mail-id').value = mailId;
+            const modal = document.getElementById('action-modal');
+            const content = document.getElementById('action-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+            document.getElementById('action-feedback').classList.add('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('action-modal');
+            const content = document.getElementById('action-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        async function submitAction(requestType) {
+            const mailId = document.getElementById('modal-mail-id').value;
+            const feedback = document.getElementById('action-feedback');
+            
+            const { data: { session } } = await _supabase.auth.getSession();
+            if(!session) return;
+
+            feedback.innerText = "Processing request...";
+            feedback.classList.remove('hidden');
+            feedback.className = "text-gray-500 text-sm font-semibold mt-6 text-center";
+
+            // 1. Push order to mail_requests table
+            const { error } = await _supabase.from('mail_requests').insert({
+                mail_item_id: mailId,
+                profile_id: session.user.id,
+                request_type: requestType
+            });
+
+            if (error) {
+                feedback.innerText = "Error: " + error.message;
+                feedback.className = "text-red-500 text-sm font-semibold mt-6 text-center";
+            } else {
+                feedback.innerText = "Request sent to Houston facility!";
+                feedback.className = "text-green-600 text-sm font-semibold mt-6 text-center";
+                
+                // 2. Update the mail status so it reflects on the dashboard
+                await _supabase.from('mail_items')
+                     .update({status: 'Processing ' + requestType})
+                     .eq('id', mailId);
+                
+                // 3. Close modal and refresh dashboard view
+                setTimeout(() => {
+                    closeModal();
+                    window.dispatchEvent(new Event('hashchange'));
+                }, 1500);
+            }
+        }
+        // --- END Global Modal Functions ---
+
+
         document.addEventListener("DOMContentLoaded", () => {
             
             // --- NEW: Login Authentication Logic ---
@@ -723,6 +819,8 @@
                         // 5. Draw the Mail Cards
                         mailItems.forEach(item => {
                             const date = new Date(item.received_at).toLocaleDateString();
+                            
+                            // Notice the onclick handler added to the Action button here!
                             const card = `
                                 <div class="border border-gray-200 rounded-xl p-5 hover:shadow-lg transition bg-beige/30">
                                     <div class="flex justify-between items-start mb-4">
@@ -733,7 +831,7 @@
                                     <p class="text-sm text-gray-500 mb-4 capitalize">Status: <span class="font-medium">${item.status}</span></p>
                                     <div class="flex gap-2">
                                         <button class="flex-1 bg-white border border-gray-300 text-xs font-semibold py-2 rounded shadow-sm hover:bg-gray-50">View Image</button>
-                                        <button class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>
+                                        <button onclick="openModal('${item.id}')" class="flex-1 bg-onyx text-white text-xs font-semibold py-2 rounded shadow-sm hover:bg-burgundy transition">Action</button>
                                     </div>
                                 </div>
                             `;
